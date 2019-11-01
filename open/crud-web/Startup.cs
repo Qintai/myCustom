@@ -163,6 +163,24 @@ namespace crud_web
             }
 
             app.UseStaticFiles();
+        
+            app.Use(next=> 
+            {
+                return (context) =>
+                {
+                    return  Task.Run(() =>
+                    {
+                        if (context.Request.Host.Value.Contains("localhost"))
+                        {
+                            next(context);
+                        }
+                        else
+                        {
+                            context.Response.WriteAsync("55555555555555");
+                        }
+                    });
+                };
+            });
 
             app.UseAuthentication(); 
 
