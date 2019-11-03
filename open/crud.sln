@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "crud_base", "crud_base\crud
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "crud-web", "crud-web\crud-web.csproj", "{A5B80828-4EF2-4BFA-AE2E-7052FC2A37FD}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyStandard", "MyStandard\MyStandard.csproj", "{525F99B3-31BC-4C95-9CA4-A6F860454266}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{A5B80828-4EF2-4BFA-AE2E-7052FC2A37FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5B80828-4EF2-4BFA-AE2E-7052FC2A37FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5B80828-4EF2-4BFA-AE2E-7052FC2A37FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{525F99B3-31BC-4C95-9CA4-A6F860454266}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{525F99B3-31BC-4C95-9CA4-A6F860454266}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{525F99B3-31BC-4C95-9CA4-A6F860454266}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{525F99B3-31BC-4C95-9CA4-A6F860454266}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

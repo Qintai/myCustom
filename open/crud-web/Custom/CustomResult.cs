@@ -21,7 +21,7 @@ namespace crud_web
         private string _code;
         private object _data;
 
-        public async Task ExecuteResultAsync(ActionContext context)
+        public  Task ExecuteResultAsync(ActionContext context)
         {
             if (context == null)
                 throw new ArgumentNullException("context");
@@ -32,7 +32,8 @@ namespace crud_web
             response.StatusCode = StatusCodes.Status200OK;
             AjaxResult ajaxResult =  new AjaxResult() { isok=_isok , msg=_msg , code=_code, data=_data};
             string result = Newtonsoft.Json.JsonConvert.SerializeObject(ajaxResult);
-            await  response.WriteAsync(result, Encoding.UTF8);
+            response.WriteAsync(result, Encoding.UTF8);
+            return Task.CompletedTask;
         }
 
         public CustomResult(string msg,bool isok=true,string code="", object data=null) 
