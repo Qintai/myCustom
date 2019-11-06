@@ -24,14 +24,14 @@ namespace crud_web
     /// </summary>
     public class DefaultController : Controller
     {
-        private  readonly ILoggerFactory _Factory;
-        private  readonly ILogger<DefaultController> _logger;
+        private readonly ILoggerFactory _Factory;
+        private readonly ILogger<DefaultController> _logger;
         private readonly IConfiguration configuration;
-        
+
         public DefaultController(
-            ILoggerFactory factory, 
+            ILoggerFactory factory,
             ILogger<DefaultController> logger,
-            IConfiguration _configuration )
+            IConfiguration _configuration)
         {
             // TODO:log4net.ILog log是不能被注入的
             configuration = _configuration;
@@ -81,27 +81,27 @@ namespace crud_web
         /// <param name="pass"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult> GetJwt(string name = "", string pass = "")
+        public async Task<string> GetJwt(string name = "", string pass = "")
         {
             string jwtStr = string.Empty;
             bool suc = false;
+            AjaxResult result = new AjaxResult();
             Console.WriteLine(Thread.CurrentThread.ManagedThreadId.ToString());
-            await  Task.Run(()=> 
-            {
-                Console.WriteLine(Thread.CurrentThread.ManagedThreadId.ToString() );
-                suc = string.IsNullOrEmpty(name) || string.IsNullOrEmpty(pass);
-            });
+            await Task.Run(() =>
+           {
+               result.msg = "***";
+               Console.WriteLine(Thread.CurrentThread.ManagedThreadId.ToString());
+               suc = string.IsNullOrEmpty(name) || string.IsNullOrEmpty(pass);
+           });
             if (suc)
             {
                 Console.WriteLine(Thread.CurrentThread.ManagedThreadId.ToString());
-                AjaxResult result = new AjaxResult();
                 result.msg = "用户名或密码不能为空";
                 result.isok = false;
-                return Content("验证通过");
-                //return result;
+                return Newtonsoft.Json.JsonConvert.SerializeObject(result);
             }
 
-            PermissionRequirement _requirement =(PermissionRequirement) HttpContext.RequestServices.GetService(typeof(PermissionRequirement));
+            PermissionRequirement _requirement = (PermissionRequirement)HttpContext.RequestServices.GetService(typeof(PermissionRequirement));
             var userRoles = "Admin";
             //如果是基于用户的授权策略，这里要添加用户;如果是基于角色的授权策略，这里要添加角色
             var claims = new List<Claim> {
@@ -113,42 +113,83 @@ namespace crud_web
             var identity = new ClaimsIdentity(JwtBearerDefaults.AuthenticationScheme);
             identity.AddClaims(claims);
             var token = JwtToken.BuildJwtToken(claims.ToArray(), _requirement);
-            return new JsonResult(token);
+            return JsonConvert.SerializeObject(token);
         }
 
         [Authorize(AuthenticationSchemes = "myAuthentication")] // myAuthentication,自己自定义的认证方案
         public ActionResult lk1()
         {
             //调用，想拿到当前登陆人的一些信息，比如登陆人的Id，Name啊
-             Claim userid = User.Claims.FirstOrDefault(c => c.Type == System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Jti);
-             string curruserId = userid?.Value; //这样就拿到当前登陆人的Uid   
+            Claim userid = User.Claims.FirstOrDefault(c => c.Type == System.IdentityModel.Tokens.Jwt.JwtRegisteredClaimNames.Jti);
+            string curruserId = userid?.Value; //这样就拿到当前登陆人的Uid   
 
-             Claim nname = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name); //为什么是  ClaimTypes.Name，取决于你写进Claim时的 用的type值
-             string sname = nname?.Value;  //这样就拿到当前登陆人的Name  
-             return Content("验证通过");
+            Claim nname = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name); //为什么是  ClaimTypes.Name，取决于你写进Claim时的 用的type值
+            string sname = nname?.Value;  //这样就拿到当前登陆人的Name  
+            return Content("验证通过");
         }
 
 
         [Authorize("Permission")]  // 这个策略中，包含的很多个 Role角色 都可以访问这个控制器, Permission 是一个完全自定义的认证逻辑
         public ActionResult lk2()
         {
-        
 
-             return Content("验证通过lk2");
+
+            return Content("验证通过lk2");
         }
 
 
 
-        [Authorize(Roles ="Guse" )]  //  系统框架的认证逻辑
+        [Authorize(Roles = "Guse")]  //  系统框架的认证逻辑
         public ActionResult lk3()
         {
 
-             return new CustomResult("验证通过lk3");
+            return new CustomResult("验证通过lk3");
         }
 
 
+        public async Task<string> ffa()
+        {
+            AjaxResult result = new AjaxResult();
+            result.code = "1";
+            result.msg = (await feg()).ToString();
+            //result.msg = await Task<string>.Run(()=> 
+            //{
+            //    Thread.Sleep(500);
+            //    return "等待了500ms";
+            //});
+
+            return JsonConvert.SerializeObject(result);
+        }
+
+        public async Task<int> feg()
+        {
+            var dd = await Task<int>.Run(() => { return 90; });
+            return 55;
+        }
 
 
+        [Produces("text/html; charset=utf-8")]
+        public async Task<IActionResult> CommandBuySalt()
+        {
+            string result = "jjfnef";
+            result = await Task.Run(() =>
+            {
+                Thread.Sleep(1000);
+                return "盐买回来了，顺便我还买了一包烟";
+            });
+            //string ftt = "f3re";
+            //var result = Task.Run(() =>
+            //{
+            //    Thread.Sleep(1000);
+            //    ftt = "543dsf";
+            //    return "盐买回来了，顺便我还买了一包烟";
+            //});
+            //result.Wait();
+
+            return Content(result);
+            //return result;
+
+        }
     }
 }
 
