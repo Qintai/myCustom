@@ -142,54 +142,9 @@ namespace crud_web
         [Authorize(Roles = "Guse")]  //  系统框架的认证逻辑
         public ActionResult lk3()
         {
-
             return new CustomResult("验证通过lk3");
         }
 
-
-        public async Task<string> ffa()
-        {
-            AjaxResult result = new AjaxResult();
-            result.code = "1";
-            result.msg = (await feg()).ToString();
-            //result.msg = await Task<string>.Run(()=> 
-            //{
-            //    Thread.Sleep(500);
-            //    return "等待了500ms";
-            //});
-
-            return JsonConvert.SerializeObject(result);
-        }
-
-        public async Task<int> feg()
-        {
-            var dd = await Task<int>.Run(() => { return 90; });
-            return 55;
-        }
-
-
-        [Produces("text/html; charset=utf-8")]
-        public async Task<IActionResult> CommandBuySalt()
-        {
-            string result = "jjfnef";
-            result = await Task.Run(() =>
-            {
-                Thread.Sleep(1000);
-                return "盐买回来了，顺便我还买了一包烟";
-            });
-            //string ftt = "f3re";
-            //var result = Task.Run(() =>
-            //{
-            //    Thread.Sleep(1000);
-            //    ftt = "543dsf";
-            //    return "盐买回来了，顺便我还买了一包烟";
-            //});
-            //result.Wait();
-
-            return Content(result);
-            //return result;
-
-        }
     }
 }
 

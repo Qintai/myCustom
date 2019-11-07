@@ -7,96 +7,102 @@ using crud_server.connector;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace crud_Web.crud_Controllers
 {
     /// <summary>
-    ///     这个控制器用来，展示Chloe.Mysql半自动ORM的增删改查
+    /// RestFul风格--Chloe.Mysql半自动ORM的增删改查
     /// </summary>
     [ApiController]
-    [Route("[controller]")]
+    [Route("[Controller]")]
     [AllowAnonymous]
+    [Produces("application/json")]
     public class ApiController : ControllerBase
     {
+        #region Init
         private readonly IzUserSer izUserSer;
 
         public ApiController(IzUserSer _izUserSer)
         {
             izUserSer = _izUserSer;
         }
-
         //Authorization
         [NonAction]
         private R GetServer<R>()
         {
-            return (R) HttpContext.RequestServices.GetService(typeof(R));
+            return (R)HttpContext.RequestServices.GetService(typeof(R));
+        }
+        #endregion
+
+        #region GET
+        [HttpGet]
+        public List<zUser> User0()
+        {
+            return new List<zUser>() { new zUser() { Id = 2, Name = "h" }, new zUser() { Id = 23, Name = "pp" } };
+            /*var list = izUserSer.GetList();
+            return list;*/
         }
 
         [HttpGet]
-        [Route("async/{id}")]
-        // localhost:5001/api/async?id=1
-        public async Task<string> GetzUser(int id)
+        [Route("{id:int}")]
+        // http://localhost:55429/api/43
+        public zUser User1(int id)
         {
-            var po = izUserSer[id];
-            // Func<Task<TResult>> function
-            // await Task.Run<zUser>(k =>
-            //  {
-            //    return new Task<zUser>(f => new zUser());
-            //  },null);
-            await new Task<string>(() => "耗时操作！");
+            return new zUser() { Id = id, Name = "rr" };
+            /*var model = izUserSer[id];
             var user = izUserSer.GetModel(id);
-            return JsonConvert.SerializeObject(user);
+            return model;*/
         }
 
         [HttpGet]
-        // localhost:5001/api?id=1&dateTime=2019-08-08 12:11:11
-        //  DateTime dateTime = DateTime.MinValue 不通过
-        public async Task<string> GetzUser(int id, DateTime dateTime)
+        [Route("{id}&{dateTime}")]
+        // http://localhost:55429/api/43&aaaa
+        public zUser User3(int id, string dateTime)
         {
-            var isValid = ModelState.IsValid; //获取一个值，该值指示此模型状态中是否有任何模型状态值 字典无效或未验证。
-            await new Task<string>(() => isValid.ToString());
-            var po = izUserSer[id];
-            var user = izUserSer.GetModel(id);
-            return JsonConvert.SerializeObject(user);
+            return new zUser() { Id = 55, Name = "rr", Age = 777 };
         }
 
-        [HttpPost]
-        public zUser GetzUser(string name)
-        {
-            return izUserSer.GetModel(k => k.Name.Equals(name));
-        }
 
+        [Route("age={age:int}")]
+        // http://localhost:55429/Api/age=43
+        [HttpGet]
+        public zUser User2(int age)
+        {
+            return new zUser() { Id = 32, Name = "年龄", Age = age };
+        }
+        #endregion
+
+        #region Update
         [HttpPut]
-        public int GetAge18()
+        [Route("id={id:int}&name={name:string}")]
+        public string update1(int id,string name)
         {
-            var count = izUserSer.AgeGreater18();
-            return count;
+            //zUser mode = GetServer<zUserSer>().GetModel(id);
+            //mode.Name = name;
+            return $"id={id}的实体更新成功！";
         }
+        #endregion
 
-
-        [HttpGet]
-        [Route("ww/{id}")]
-        public zmyhork Gethome(int id)
+        #region DELETE
+        [HttpDelete]
+        [Route("{id:int}")]
+        public string delete(int id)
         {
-            var zmyhorkser = GetServer<zmyhorkSer>();
-            var model = zmyhorkser[id];
-            return model;
+            return "删除成功！";
         }
+        #endregion
 
+        #region ADD
         [HttpPost]
-        [Route("ww/{id:int}")]
-        [Authorize(Roles="topadmin")]
-        public zmyhork Gethome1(int id)
+        [Route("{id:int}")]
+        public string add(int id)
         {
-            var zmyhorkser = GetServer<zmyhorkSer>();
-            var model = zmyhorkser[id];
-            return model;
+            return "添加成功！";
         }
+        #endregion
 
-        [HttpPost]
-        public ActionResult setdata()
-        {
-            return new ViewResult();
-        }
     }
 }
+
+

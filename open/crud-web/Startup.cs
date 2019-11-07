@@ -164,7 +164,7 @@ namespace crud_web
 
             app.UseStaticFiles();
         
-            app.Use(next=> 
+           /* app.Use(next=> 
             {
                 return (context) =>
                 {
@@ -180,7 +180,7 @@ namespace crud_web
                         }
                     });
                 };
-            });
+            });*/
 
             app.UseAuthentication(); 
 

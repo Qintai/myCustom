@@ -21,22 +21,21 @@ namespace crud_web
         private string _code;
         private object _data;
 
-        public  Task ExecuteResultAsync(ActionContext context)
+        public override async Task ExecuteResultAsync(ActionContext context)
         {
             if (context == null)
                 throw new ArgumentNullException("context");
- 
+
             HttpResponse response = context.HttpContext.Response;
             ResponseContentTypeHelper.ResolveContentTypeAndEncoding("application/json", response.ContentType, "application/json", out string resolvedContentType, out Encoding resolvedContentTypeEncoding);
             response.ContentType = resolvedContentType;
             response.StatusCode = StatusCodes.Status200OK;
-            AjaxResult ajaxResult =  new AjaxResult() { isok=_isok , msg=_msg , code=_code, data=_data};
+            AjaxResult ajaxResult = new AjaxResult() { isok = _isok, msg = _msg, code = _code, data = _data };
             string result = Newtonsoft.Json.JsonConvert.SerializeObject(ajaxResult);
-            response.WriteAsync(result, Encoding.UTF8);
-            return Task.CompletedTask;
+            await response.WriteAsync(result, Encoding.UTF8);
         }
 
-        public CustomResult(string msg,bool isok=true,string code="", object data=null) 
+        public CustomResult(string msg, bool isok = true, string code = "", object data = null)
         {
             _msg = msg;
             _isok = isok;
