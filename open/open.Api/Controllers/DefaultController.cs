@@ -1,29 +1,24 @@
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Net;
-using System.Security.Claims;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web.Providers.Entities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading;
+using System.Threading.Tasks;
 using JwtRegisteredClaimNames = Microsoft.IdentityModel.JsonWebTokens.JwtRegisteredClaimNames;
 
-namespace crud_web
+namespace open.Api.Controllers
 {
     /// <summary>
     ///     这个控制器，用来展示授权的
     /// </summary>
-    public class DefaultController : Microsoft.VisualStudio.Web.CodeGenerators.Mvc.Controller
+    public class DefaultController : ControllerBase
     {
         private readonly ILoggerFactory _Factory;
         private readonly ILogger<DefaultController> _logger;
@@ -46,13 +41,6 @@ namespace crud_web
         }
 
         #region 使用自带ValidateAntiForgeryToken
-
-        public ActionResult Index()
-        {
-            /* */
-            return View();
-        }
-
         // [AcceptVerbs(HttpVerbs.Post)] netCore没有这个
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -64,16 +52,10 @@ namespace crud_web
             //HtmlGenerator.GenerateAntiforgery();
 
             ModelState.AddModelError("", "1111111111111");
-            return Json("好的");
+            return new JsonResult("好的");
         }
 
         #endregion
-
-
-        public ActionResult JwtDemo()
-        {
-            return View();
-        }
 
         /// <summary>
         /// 获取token
@@ -133,11 +115,9 @@ namespace crud_web
         [Authorize("Permission")]  // 这个策略中，包含的很多个 Role角色 都可以访问这个控制器, Permission 是一个完全自定义的认证逻辑
         public ActionResult lk2()
         {
-
-
+            
             return Content("验证通过lk2");
         }
-
 
 
         [Authorize(Roles = "Guse")]  //  系统框架的认证逻辑

@@ -1,15 +1,10 @@
-﻿using System;
-using System.Net;
-using System.Threading.Tasks;
-using crud_entity;
-using crud_server.Achieve;
+﻿using crud_entity;
 using crud_server.connector;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace crud_Web.crud_Controllers
+namespace open.Api.Controllers
 {
     /// <summary>
     /// RestFul风格--Chloe.Mysql半自动ORM的增删改查
@@ -18,14 +13,19 @@ namespace crud_Web.crud_Controllers
     [Route("[Controller]")]
     [AllowAnonymous]
     [Produces("application/json")]
-    public class ApiController : ControllerBase
+    public class UserController : ControllerBase
     {
         #region Init
-        private readonly IzUserSer izUserSer;
+        private readonly IzUserSer _izUserSer;
+        private readonly IzunderlyingSer _zunderingser;
+        private readonly AjaxResult _ajaxResult;
 
-        public ApiController(IzUserSer _izUserSer)
+        public UserController(IzUserSer _izUserSer, IzunderlyingSer zunderingser,AjaxResult ajaxResult)
         {
-            izUserSer = _izUserSer;
+            this._izUserSer = _izUserSer;
+            this._zunderingser = zunderingser;
+            this._ajaxResult = ajaxResult;
+
         }
         //Authorization
         [NonAction]
@@ -75,7 +75,7 @@ namespace crud_Web.crud_Controllers
 
         #region Update
         [HttpPut]
-        [Route("id={id:int}&name={name:string}")]
+        [Route("id={id:int}&name={name}")]
         public string update1(int id,string name)
         {
             //zUser mode = GetServer<zUserSer>().GetModel(id);
@@ -87,8 +87,10 @@ namespace crud_Web.crud_Controllers
         #region DELETE
         [HttpDelete]
         [Route("{id:int}")]
+        [Authorize(Roles = "Admin")]
         public string delete(int id)
         {
+
             return "删除成功！";
         }
         #endregion
@@ -101,6 +103,33 @@ namespace crud_Web.crud_Controllers
             return "添加成功！";
         }
         #endregion
+
+        [HttpPost]
+        [Route("login")]
+        public AjaxResult Login([FromQuery]string a,[FromQuery]string b) 
+        {
+            var model= _zunderingser.GetModel(v=>v.Nickname.Equals(a));
+            if (model == null)
+            {
+                _ajaxResult.isok = false;
+                _ajaxResult.msg = "没有找到该用户！";
+                return _ajaxResult; 
+            }
+            model = _zunderingser.GetModel(v => v.Nickname.Equals(a) && v.pwd.Equals(b));
+            if (model.Role == Permissions.Stop.ToString())
+            {
+                _ajaxResult.msg = "用户已经被禁止！";
+                return _ajaxResult;
+            }
+            TokenModelJwt modelJwt = new TokenModelJwt();
+            modelJwt.Role = model.Role;
+            modelJwt.Uid = model.GuId.ToString();
+            string token= JwtHelper.IssueJwt(modelJwt);
+
+            _ajaxResult.code = token;
+            _ajaxResult.isok = true;
+            return _ajaxResult;
+        }
 
     }
 }

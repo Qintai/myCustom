@@ -6,7 +6,8 @@ namespace crud_entity
     [Table("zmyhork")]
     public class zmyhork
     {
-        [Column("Id", IsPrimaryKey = true)] public int Id { get; set; }
+        [Column("Id", IsPrimaryKey = true)]
+        public int Id { get; set; }
 
         public DateTime? addtime { get; set; }
 

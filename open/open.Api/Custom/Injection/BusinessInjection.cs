@@ -3,11 +3,10 @@ using System.Reflection;
 using Chloe;
 using Chloe.MySql;
 using crud_base;
-using crud_web;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace open.Web
+namespace open.Api
 {
     /// <summary>
     ///     配置数据库 的链接

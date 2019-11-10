@@ -6,11 +6,35 @@ namespace crud_entity
     [Table("zUser")]
     public class zUser
     {
-        [Column("Id", IsPrimaryKey = true)] public int Id { get; set; }
+        /// <summary>
+        /// 名字
+        /// </summary>
+        [Column("Id", IsPrimaryKey = true)]
+        public int Id { get; set; }
+
+        /// <summary>
+        /// 名字
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// 性别
+        /// </summary>
         public Gender? Gender { get; set; }
+
+        /// <summary>
+        /// 年龄
+        /// </summary>
         public int? Age { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         public int? CityId { get; set; }
+
+        /// <summary>
+        /// 添加时间
+        /// </summary>
         public DateTime? addTime { get; set; }
 
         //  [NotMapped]
