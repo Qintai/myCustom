@@ -34,10 +34,10 @@ namespace open.Api.Controllers
             _Factory = factory;
             _logger = logger;
 
-            //   this._Factory.CreateLogger<DefaultController>().LogError("这里是ILoggerFactory Error"); 
-            //   this._logger.LogError("这里是ILogger<DefaultController> Error");
-            //   this._logger.LogDebug($"User Name { base.HttpContext.User?.Identity?.Name}");
-            //   this._logger.LogDebug($"fff");
+               //this._Factory.CreateLogger<DefaultController>().LogError("这里是ILoggerFactory Error"); 
+               //this._logger.LogError("这里是ILogger<DefaultController> Error");
+               //this._logger.LogDebug($"这里是LogDebug");
+               //this._logger.LogWarning($"这里是LogWarning");
         }
 
         #region 使用自带ValidateAntiForgeryToken
@@ -124,6 +124,16 @@ namespace open.Api.Controllers
         public ActionResult lk3()
         {
             return new CustomResult("验证通过lk3");
+        }
+
+        /// <summary>
+        /// 拦截路由，后跳转到此
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public string getIp()
+        {
+            return "{\"ip\":\"220.181.38.150\",\"dz\":\"北京市\",\"wl\":\"电信互联网数据中心\"}";
         }
 
     }

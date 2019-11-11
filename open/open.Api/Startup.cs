@@ -22,15 +22,14 @@ namespace open.Api
 {
     public class Startup
     {
+        public IConfiguration configuration { get; }
+        private readonly IHostingEnvironment _hostingEnvironment;
+
         public Startup(IConfiguration _configuration, IHostingEnvironment hostingEnvironment)
         {
             configuration = _configuration;
             _hostingEnvironment = hostingEnvironment;
         }
-
-        public IConfiguration configuration { get; }
-
-        private readonly IHostingEnvironment _hostingEnvironment;
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -41,8 +40,7 @@ namespace open.Api
             });
             services.InjectionBusiness(configuration); // 配置MySQL的链接
             services.InjectionBusinessServer(); //批量注入 服务类
-            services.AddMvc(a=>
-                     a.EnableEndpointRouting = false
+            services.AddMvc(a=>a.EnableEndpointRouting = false
                 ).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             /*=============================*/
 
@@ -160,125 +158,104 @@ namespace open.Api
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
-            {
                 app.UseDeveloperExceptionPage();
-            }
             else
             {
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
 
-            //app.Use(next =>
-            // {
-            //     return (context) =>
-            //     {
-            //         return Task.Run(() =>
-            //        {
-            //            if (context.Request.Host.Value.Contains("localhost"))
-            //            {
-            //                next(context);
-            //            }
-            //            else
-            //            {
-            //                // context.Response.WriteAsync("55555555555555");
-            //            }
-            //        });
-            //     };
-            // });
-
             #region 404的Middleare
-            app.Use(async (context, next) =>
-            {
-                await next();
-                if (context.Response.StatusCode == 404)
-                {
-                    context.Response.ContentType = "application/json";
-                    var ajax = context.Response.Headers["x-requested-with"];
-                    if (ajax.ToString() == "XMLHttpRequest")
-                    {
-                        await context.Response.WriteAsync(Newtonsoft.Json.JsonConvert.SerializeObject(
-                            new
-                            { code = 404, msg = "empty", result = "" },
-                            new Newtonsoft.Json.JsonSerializerSettings { Formatting = Newtonsoft.Json.Formatting.Indented }));
-                    }
-                    else
-                    {
-                        context.Response.ContentType = "text/html; charset=UTF-8";
-                        await context.Response.WriteAsync(File.ReadAllText(_hostingEnvironment.ContentRootPath + "/Html/404/404.html"), Encoding.UTF8);
-                    }
-                }
-            });
+            //app.Use(async (context, next) =>
+            //{
+            //    await next();
+            //    if (context.Response.StatusCode == 404)
+            //    {
+            //        context.Response.ContentType = "application/json";
+            //        var ajax = context.Response.Headers["x-requested-with"];
+            //        if (ajax.ToString() == "XMLHttpRequest")
+            //        {
+            //            await context.Response.WriteAsync(Newtonsoft.Json.JsonConvert.SerializeObject(
+            //                new
+            //                { code = 404, msg = "empty", result = "" },
+            //                new Newtonsoft.Json.JsonSerializerSettings { Formatting = Newtonsoft.Json.Formatting.Indented }));
+            //        }
+            //        else
+            //        {
+            //            context.Response.ContentType = "text/html; charset=UTF-8";
+            //            await context.Response.WriteAsync(File.ReadAllText(_hostingEnvironment.ContentRootPath + "/Html/404/404.html"), Encoding.UTF8);
+            //        }
+            //    }
+            //});
             #endregion
 
             app.UseAuthentication();
             app.UseCookiePolicy();
-
-
             //设置主页
             //DefaultFilesOptions defaultFilesOptions = new DefaultFilesOptions();
             //defaultFilesOptions.DefaultFileNames.Clear();
             //defaultFilesOptions.DefaultFileNames.Add("~/Html/Index.html");
             //app.UseDefaultFiles(defaultFilesOptions);
             app.UseStaticFiles();
-
             app.UseHttpsRedirection();
-      
-            //app.MapWhen(context => 
-            //{
-            //    if (context.Request.Path.Value.Contains("html"))
-            //        return true;
-            //    else
-            //        return false;
-            //},builder=> 
-            //{
-            //    builder.Run(async context=> {
-            //        string contentRootPath = _hostingEnvironment.ContentRootPath + "\\Html";
-            //        string routename = context.GetRouteValue("some").ToString();
-            //        string filepath = $"{contentRootPath}\\{routename}\\{routename}.html";
-            //        await context.Response.WriteAsync(File.ReadAllText(filepath), Encoding.UTF8);
-            //    });
-            //});
-            //要用带“/”的才行
-            //app.Map("/html", builder => 
-            //{
-            //    builder.Run(async context => {
-            //        string contentRootPath = _hostingEnvironment.ContentRootPath + "\\Html";
-            //        string routename = context.GetRouteValue("some").ToString();
-            //        string filepath = $"{contentRootPath}\\{routename}\\{routename}.html";
-            //        await context.Response.WriteAsync(File.ReadAllText(filepath), Encoding.UTF8);
-            //    });
-            //});
 
-            app.UseRouter(router =>
+            #region 后缀带有html的拦截处理
+            //app.Map("/.html", builder =>
+            //{        // 带“/” 的处理，
+            //    builder.Run(async context =>
+            //    {
+            //        string contentRootPath = _hostingEnvironment.ContentRootPath + "\\Html";
+            //        string filename = context.Request.Path.Value.Substring(context.Request.Path.Value.LastIndexOf("/") + 1).Replace(".html", "");
+            //        string filepath = $"{contentRootPath}\\{filename}\\{filename}.html";
+            //        await context.Response.WriteAsync(File.ReadAllText(filepath), Encoding.UTF8);
+            //    });
+            //});
+            app.MapWhen(context =>
             {
-                Action<IApplicationBuilder> must = route =>
-                {
-                    route.Run(async context =>
-                    {
-                        string contentRootPath = _hostingEnvironment.ContentRootPath + "\\Html";
-                        string routename = context.GetRouteValue("some").ToString();
-                        string filepath = $"{contentRootPath}\\{routename}\\{routename}.html";
-                        await context.Response.WriteAsync(File.ReadAllText(filepath), Encoding.UTF8);
-                        //using (StreamWriter streamWriter = new StreamWriter(context.Response.Body, Encoding.UTF8))
-                        //    streamWriter.Write("你的token已经过期了");
-                    });
-                };
-                router.MapMiddlewareRoute("{some}.html", must);
-                router.MapMiddlewareRoute("{a?}/{some}.html", must);
+                if (context.Request.Path.Value.Contains(".html"))
+                    return true;
+                else
+                    return false;
+            }, builder =>
+             {
+                 builder.Run(async context =>
+                 {
+                     string contentRootPath = _hostingEnvironment.ContentRootPath + "\\Html";
+                     string filename = context.Request.Path.Value.Substring(context.Request.Path.Value.LastIndexOf("/")+1 ).Replace(".html","");
+                     string filepath = $"{contentRootPath}\\{filename}\\{filename}.html";
+                     if(File.Exists(filepath))
+                         await context.Response.WriteAsync(File.ReadAllText(filepath), Encoding.UTF8);
+                     else
+                         await context.Response.WriteAsync("文件不存在！", Encoding.UTF8);
+                 });
+             });
 
-            });
+            // 二：路由式解决，输入地址有限制，不能适应更加复杂的情况
+            //app.UseRouter(router =>
+            //{
+            //    Action<IApplicationBuilder> must = route =>
+            //    {
+            //        route.Run(async context =>
+            //        {
+            //            string contentRootPath = _hostingEnvironment.ContentRootPath + "\\Html";
+            //            string routename = context.GetRouteValue("some").ToString();
+            //            string filepath = $"{contentRootPath}\\{routename}\\{routename}.html";
+            //            await context.Response.WriteAsync(File.ReadAllText(filepath), Encoding.UTF8);
+            //            //using (StreamWriter streamWriter = new StreamWriter(context.Response.Body, Encoding.UTF8))
+            //            //    streamWriter.Write("你的token已经过期了");
+            //        });
+            //    };
+            //    router.MapMiddlewareRoute("{some}.html", must);
+            //    router.MapMiddlewareRoute("{a?}/{some}.html", must);
+            //});
+
+            #endregion
+
 
             app.UseMvc(routes =>
             {
-                routes.Routes.Add(new IndexRoute(app.ApplicationServices));
-                //routes.MapRoute(
-                //   name: "default",
-                //   template: "index.html"
-                //);
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                routes.Routes.Add(new CystomRoute(app.ApplicationServices)); // IndexRoute 自定义路由处理方式
+                routes.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}");
             });
 
         }
