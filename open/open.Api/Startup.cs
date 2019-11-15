@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Internal;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,7 +40,7 @@ namespace open.Api
             services.InjectionBusiness(configuration); // 配置MySQL的链接
             services.InjectionBusinessServer(); //批量注入 服务类
             services.AddMvc(a=>a.EnableEndpointRouting = false
-                ).SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+                ).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             /*=============================*/
 
             #region 这一种：[Authorize(AuthenticationSchemes = "myAuthentication")]   // myAuthentication--自己自定义的认证方案

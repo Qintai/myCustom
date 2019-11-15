@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.Internal;
-using Microsoft.AspNetCore.Routing;
+﻿using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
@@ -15,13 +14,16 @@ namespace open.Api.Custom.Route
 
         /// <summary>
         /// 自定义路由，URL上有包含 “.ip”的访问，处理之后，交给MVC路由去处理
+        /// 升级3.0 这个，报错了,3.0 没有这个 MvcRouteHandler
         /// </summary>
         /// <param name="services"></param>
         public CystomRoute(IServiceProvider services)
         {
             _services = services;
             // RouteHandler
-            _mvcRoute = services.GetRequiredService<MvcRouteHandler>();
+
+            //_mvcRoute = services.GetRequiredService<MvcRouteHandler>(); 升级3.0 这个，报错了,3.0 没有这个 MvcRouteHandler
+
         }
 
         public VirtualPathData GetVirtualPath(VirtualPathContext context)

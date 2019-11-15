@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Internal;
 using System;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,8 +24,8 @@ namespace open.Api
                 throw new ArgumentNullException("context");
 
             HttpResponse response = context.HttpContext.Response;
-            ResponseContentTypeHelper.ResolveContentTypeAndEncoding("application/json", response.ContentType, "application/json", out string resolvedContentType, out Encoding resolvedContentTypeEncoding);
-            response.ContentType = resolvedContentType;
+            //ResponseContentTypeHelper.ResolveContentTypeAndEncoding("application/json", response.ContentType, "application/json", out string resolvedContentType, out Encoding resolvedContentTypeEncoding);
+            response.ContentType = "application/json";   // resolvedContentType;
             response.StatusCode = StatusCodes.Status200OK;
             AjaxResult ajaxResult = new AjaxResult() { isok = _isok, msg = _msg, code = _code, data = _data };
             string result = Newtonsoft.Json.JsonConvert.SerializeObject(ajaxResult);
