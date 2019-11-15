@@ -45,6 +45,7 @@ namespace QinOpen
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "ApiHelp V1");
             });
+
             //app.UseSwaggerUI(c =>
             //{
             //    //根据版本名称倒序 遍历展示
