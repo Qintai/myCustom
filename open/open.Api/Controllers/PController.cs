@@ -9,13 +9,16 @@ namespace open.Api.Controllers
     ///  JsonP
     /// </summary>
     [ApiController]
-    [Route("[Controller]")]
+    [Route("[controller]/[action]")]
     [ActionControllerActionFilter]
     public class PController : ControllerBase
     {
-        [Route("M")]
+        /// <summary>
+        /// 获取经纬度
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
-        public string get()
+        public string Longitudeandlatitude()
         {
             /* 
              *  $.ajax({
@@ -32,7 +35,7 @@ namespace open.Api.Controllers
              *  });
              */
 
-            return "{\"ip\":\"220.181.38.150\",\"dz\":\"北京市\",\"wl\":\"电信互联网数据中心\"}";
+            return "{\"status\":1,\"exact\":2,\"gps\":false,\"gcj\":{\"lng\":113.3292238,\"lat\":23.1361035},\"bd09\":{\"lng\":113.3357638,\"lat\":23.1418124},\"url\":\"https://cdn.asilu.com/map/#lng=113.3292238&lat=23.1361035\",\"address\":\"广东省广州市天河区林和街道财富广场羊城国际商贸中心\",\"ip\":\"113.111.9.158\",\"cache\":1}";
         }
     }
 }
