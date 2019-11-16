@@ -22,7 +22,7 @@ namespace open.Api.Custom.Route
             _services = services;
             // RouteHandler
 
-            //_mvcRoute = services.GetRequiredService<MvcRouteHandler>(); 升级3.0 这个，报错了,3.0 没有这个 MvcRouteHandler
+            //_mvcRoute = services.GetRequiredService<MvcRouteHandler>(); //升级3.0 这个，报错了,3.0 没有这个 MvcRouteHandler
 
         }
 

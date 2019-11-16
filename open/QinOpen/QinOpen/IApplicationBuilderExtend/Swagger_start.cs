@@ -6,7 +6,7 @@ namespace QinOpen.IApplicationBuilderExtend
     //https://www.cnblogs.com/taotaozhuanyong/p/11602820.html
     public static class Swagger_start
     {
-        public static void AddSwaggerStart(this IServiceCollection services)
+        public static void Swagger(this IServiceCollection services)
         {
             // 预发行版本：Swashbuckle.AspNetCore ，拥有一切swagger的配置项
             services.AddSwaggerGen(c =>

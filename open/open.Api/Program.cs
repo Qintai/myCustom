@@ -16,9 +16,9 @@ namespace open.Api
             return WebHost.CreateDefaultBuilder(args)
                 .ConfigureLogging(loggingBuilder =>
                 {
-                    loggingBuilder.AddFilter("System", LogLevel.Warning);
-                    loggingBuilder.AddFilter("Microsoft", LogLevel.Warning); //过滤掉系统默认的一些日志
-                    loggingBuilder.AddLog4Net(@"Log4Config\log4net.Config"); //配置文件地址
+                  // loggingBuilder.AddFilter("System", LogLevel.Warning);
+                  // loggingBuilder.AddFilter("Microsoft", LogLevel.Warning); //过滤掉系统默认的一些日志
+                  // loggingBuilder.AddLog4Net(@"Log4Config\log4net.Config"); //配置文件地址
                 })
                 .UseStartup<Startup>();
         }

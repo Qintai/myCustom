@@ -8,8 +8,6 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using open.Api.Custom.Route;
-using open.Api.Filter;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,6 +20,7 @@ namespace open.Api
     public class Startup
     {
         public IConfiguration configuration { get; }
+
         private readonly IHostingEnvironment _hostingEnvironment;
 
         public Startup(IConfiguration _configuration, IHostingEnvironment hostingEnvironment)
@@ -42,6 +41,8 @@ namespace open.Api
             services.AddMvc(a=>a.EnableEndpointRouting = false
                 ).SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
             /*=============================*/
+
+            services.AddSwagger();
 
             #region 这一种：[Authorize(AuthenticationSchemes = "myAuthentication")]   // myAuthentication--自己自定义的认证方案
 
@@ -164,6 +165,14 @@ namespace open.Api
                 app.UseHsts();
             }
 
+            #region Swagger
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "ApiHelp V1");
+            });
+            #endregion
+
             #region 404的Middleare
             //app.Use(async (context, next) =>
             //{
@@ -195,8 +204,8 @@ namespace open.Api
             //defaultFilesOptions.DefaultFileNames.Clear();
             //defaultFilesOptions.DefaultFileNames.Add("~/Html/Index.html");
             //app.UseDefaultFiles(defaultFilesOptions);
-            app.UseStaticFiles();
-            app.UseHttpsRedirection();
+            //app.UseStaticFiles();
+            //app.UseHttpsRedirection();
 
             #region 后缀带有html的拦截处理
             //app.Map("/.html", builder =>
@@ -253,7 +262,7 @@ namespace open.Api
 
             app.UseMvc(routes =>
             {
-                routes.Routes.Add(new CystomRoute(app.ApplicationServices)); // IndexRoute 自定义路由处理方式
+               // routes.Routes.Add(new CystomRoute(app.ApplicationServices)); // IndexRoute 自定义路由处理方式
                 routes.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}");
             });
 

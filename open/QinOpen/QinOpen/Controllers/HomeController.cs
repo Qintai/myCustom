@@ -16,6 +16,8 @@ namespace QinOpen.Controllers
 
         public IActionResult Index()
         {
+            InterExample interExample= (InterExample)HttpContext.RequestServices.GetService(typeof(InterExample));
+
             return View();
         }
 

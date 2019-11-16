@@ -15,18 +15,21 @@ namespace QinOpen
 {
     public class Startup
     {
+        public IConfiguration _configuration { get; }
+
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddSwaggerStart();
+            services.Swagger();
+            services.Jwt(_configuration);
+            services.InjectionBusinessServer(_configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

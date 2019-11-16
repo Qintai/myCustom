@@ -1,0 +1,12 @@
+{
+  "Example": {
+    "MessageModel": ""
+  },
+  "InterExample": {
+    "IBaseRepository": "BaseRepository",
+    "IzUserService": "zUserService"
+  }
+
+
+
+}
