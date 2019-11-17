@@ -1,8 +1,6 @@
 ﻿using Chloe;
 using QinEntity;
-using QinIServices;
 using QinRepository;
-using System;
 
 namespace QinServices
 {

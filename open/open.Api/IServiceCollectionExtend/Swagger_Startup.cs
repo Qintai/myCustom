@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Swashbuckle.AspNetCore.Swagger;
-using System;
+using Microsoft.OpenApi.Models;
 
 namespace open.Api
 {
@@ -8,22 +7,44 @@ namespace open.Api
     {
         public static void AddSwagger(this IServiceCollection services)
         {
-            if (services == null) throw new ArgumentNullException(nameof(services));
+            if (services == null) return;
 
-            var basePath = AppContext.BaseDirectory;
+            // 预发行版本：Swashbuckle.AspNetCore ，拥有一切swagger的配置项
+           // Microsoft.Extensions.DependencyInjection.SwaggerGenServiceCollectionExtensions.AddSwaggerGen();
+
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info
-                {
-                    Version = "v0.1.0",
-                    Title = "open API",
-                    Description = "框架说明文档",
-                    TermsOfService = "None",
-                    Contact = new Swashbuckle.AspNetCore.Swagger.Contact { Name = "open API", Email = "xxxxx@xxx.com", Url = "https://www.baidu.com" }
-                });
-            });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
 
+                #region Core2.2的写法，已经注释
+
+                // c.SwaggerDoc("QinOpen", new Info()
+                // {
+                //     Version = "1.0",
+                //     Title = "QinOpen接口文档",
+                //     Contact = new Contact() { Name="Api"},
+                //     License = new License() {Name="QinApi",Url="www.google.com" }
+                // });
+                // c.OperationFilter<AddResponseHeadersFilter>();
+                // c.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
+                // c.OperationFilter<SecurityRequirementsOperationFilter>();
+
+                //遍历出全部的版本，做文档信息展示
+                //typeof(ApiVersions).GetEnumNames().ToList().ForEach(version =>
+                //{
+                //    c.SwaggerDoc(version, new OpenApiInfo
+                //    {
+                //        Version = version,
+                //        Title = $"{ApiName} 接口文档——Netcore 3.0",
+                //        Description = $"{ApiName} HTTP API " + version,
+                //        Contact = new OpenApiContact { Name = ApiName, Email = "Blog.Core@xxx.com", Url = new Uri("https://www.jianshu.com/u/94102b59cc2a") },
+                //        License = new OpenApiLicense { Name = ApiName, Url = new Uri("https://www.jianshu.com/u/94102b59cc2a") }
+                //    });
+                //    c.OrderActionsBy(o => o.RelativePath);
+                #endregion
+
+            });
 
         }
     }

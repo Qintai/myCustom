@@ -9,8 +9,4 @@
     <PackageReference Include="sqlSugarCore" Version="5.0.0.10" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\QinIRepository\QinIRepository.csproj" />
-  </ItemGroup>
-
 </Project>

@@ -14,6 +14,7 @@ using System.IO;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.OpenApi.Models;
 
 namespace open.Api
 {

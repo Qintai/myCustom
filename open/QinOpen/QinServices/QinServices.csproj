@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\QinEntity\QinEntity.csproj" />
-    <ProjectReference Include="..\QinIServices\QinIServices.csproj" />
     <ProjectReference Include="..\QinRepository\QinRepository.csproj" />
   </ItemGroup>
 

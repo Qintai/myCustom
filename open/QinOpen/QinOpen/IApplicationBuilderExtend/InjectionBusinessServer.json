@@ -1,12 +1,11 @@
+// Example = 注入单独类
+// InterExample=接口--实现类
+// 这个类中不要写 其他程序集的类
 {
   "Example": {
-    "MessageModel": ""
+    "QinOpen.MessageModel": ""
   },
   "InterExample": {
-    "IBaseRepository": "BaseRepository",
-    "IzUserService": "zUserService"
+ 
   }
-
-
-
 }

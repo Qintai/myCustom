@@ -1,13 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using QinOpen.Models;
 using System.Diagnostics;
 
 namespace QinOpen.Controllers
 {
     public class HomeController : Controller
-    {
+    {   
         private readonly ILogger<HomeController> _logger;
+
 
         public HomeController(ILogger<HomeController> logger)
         {
@@ -16,7 +18,8 @@ namespace QinOpen.Controllers
 
         public IActionResult Index()
         {
-            InterExample interExample= (InterExample)HttpContext.RequestServices.GetService(typeof(InterExample));
+            // services.Configure<InterExample>(configuration.GetSection("InterExample"));  //配置为 InterExample 注入对象成功
+            //InterExample interExample = (InterExample)HttpContext.RequestServices.GetService(typeof(InterExample));
 
             return View();
         }

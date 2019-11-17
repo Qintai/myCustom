@@ -1,7 +1,7 @@
 ﻿using QinEntity;
-using QinIRepository;
+using QinRepository;
 
-namespace QinIServices
+namespace QinServices
 {
     public interface IzUserService : IBaseRepository<zUser>
     {

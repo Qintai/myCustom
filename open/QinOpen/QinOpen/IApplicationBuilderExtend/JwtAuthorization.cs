@@ -10,7 +10,7 @@ namespace QinOpen.IApplicationBuilderExtend
 {
     public static class JwtAuthorization
     {
-        public static void Jwt(this IServiceCollection services, IConfiguration _configuration)
+        public static void Jwt(this IServiceCollection services/*, IConfiguration _configuration*/)
         {
             //读取配置文件
             var symmetricKeyAsBase64 ="FJKLSFJEWPCDSNVKREWPOIDSKLNCKSJFOEWPNVDSLKJFEWOREWPFSDKNALERPOEWRIENDSKNVDSKLJFPOREWPIGJDKSLNARE";
@@ -25,9 +25,6 @@ namespace QinOpen.IApplicationBuilderExtend
             {
                 k.AddPolicy("EveoneAdmin", p => p.RequireRole("admin_a", "admin_b", "admin_c").Build());
             });
-
-
-
 
             services.AddAuthentication(f =>
             {
