@@ -4,7 +4,7 @@ using Chloe.Annotations;
 namespace QinEntity
 {
     [Table("zmyhork")]
-    public class zmyhork
+    public class zWork
     {
         [Column("Id", IsPrimaryKey = true)]
         public int Id { get; set; }

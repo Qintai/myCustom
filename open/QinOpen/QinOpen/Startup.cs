@@ -22,7 +22,8 @@ namespace QinOpen
             services.AddControllersWithViews();
             services.Swagger();
             services.Jwt();
-            services.InjectionBusinessServer();
+            services.DbInitialization(_configuration); // 一定先注入DB
+            services.InjectionBusinessServer(); //注入业务 services
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

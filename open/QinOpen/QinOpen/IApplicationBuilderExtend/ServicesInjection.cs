@@ -19,18 +19,19 @@ namespace QinOpen.IApplicationBuilderExtend
             Assembly assembly = Assembly.Load("QinServices");
             Type[] types = assembly.GetTypes();
 
-            foreach (var item in types)
+            foreach (Type item in types)
             {
-                var inters = item.GetInterfaces().Where(k => !k.Name.Contains("IBaseRepository")).ToArray();
-                if (inters == null || inters.Count() == 0)
-                    services.AddTransient(item); // 如果是接口，会被重复注册
+                var inters = item.GetInterfaces().Where(k => !k.Name.Contains("IBaseRepository") && !k.IsClass).ToArray();
+
+                if (item.IsClass && (inters == null || inters.Count() == 0))
+                    services.AddTransient(item); // 注册单独类
                 else
                     foreach (var inter in inters)
-                        services.AddTransient(inter, item);
+                        services.AddTransient(inter, item); //注册 接口--实现类
             }
 
             #region 在当前QinOpen程序集上，动态注入实例 InjectionBusinessServer.json，Example=不带接口，InterExample带接口的
-
+            /*
             string text = File.ReadAllText("IApplicationBuilderExtend/InjectionBusinessServer.json");
             var jobject = JObject.Parse(text);
             if (jobject == null || jobject.Count == 0)
@@ -49,6 +50,7 @@ namespace QinOpen.IApplicationBuilderExtend
                 Type aa = Type.GetType(Realizationname, true, true);
                 services.AddTransient(tt, aa);
             }
+            */
             #endregion
 
         }

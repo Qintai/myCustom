@@ -1,5 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Chloe;
+using Chloe.Infrastructure;
+using Chloe.MySql;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MySql.Data.MySqlClient;
+using System.Data;
 
 namespace QinOpen
 {
@@ -24,13 +29,19 @@ namespace QinOpen
             #endregion
 
 
+            #region ChIoe
+            services.AddScoped<IDbContext>(serviceProvider =>
+            {
+                string _connString = configuration.GetSection("con:consetting").Value;
+                return new MySqlContext(new DbConnectionFactory(() =>
+                {
+                    IDbConnection conn = new MySqlConnection(_connString);
+                    return conn;
+                }));
+            });
+            #endregion
 
 
-            //services.AddScoped<IDbContext>(serviceProvider =>
-            //{
-            //    return new MySqlContext(new DbConnectionFactory
-            //        (configuration.GetSection("con:consetting").Value));
-            //});
         }
 
 

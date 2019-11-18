@@ -7,7 +7,7 @@ using System.Diagnostics;
 namespace QinOpen.Controllers
 {
     public class HomeController : Controller
-    {   
+    {
         private readonly ILogger<HomeController> _logger;
 
 
