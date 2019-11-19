@@ -40,32 +40,33 @@ namespace QinOpen
             });
 
             services.AddTransient<zCustomUserService>();
-
+            services.AddTransient<zCustomUserRolesService>();
+            
             #endregion
 
 
             #region ChIoe
-           /* services.AddScoped<IDbContext>(serviceProvider =>
-            {
-               string _connString =   Appsettings.app(new string[] { "AppSettings", "MySql", "MySqlConnection" });
-                return new MySqlContext(new DbConnectionFactory(() =>
-                {
-                    IDbConnection conn = new MySqlConnection(_connString);
-                    return conn;
-                }));
-            });
-            //先注入 IDbContext，再注入业务
-            Assembly assembly = Assembly.Load("QinServices");
-            Type[] types = assembly.GetTypes();
-            foreach (Type item in types)
-            {
-                var inters = item.GetInterfaces().Where(k => !k.Name.Contains("IBaseRepository") && !k.IsClass).ToArray();
-                if (item.IsClass && (inters == null || inters.Count() == 0))
-                    services.AddTransient(item); // 注册单独类
-                else
-                    foreach (var inter in inters)
-                        services.AddTransient(inter, item); //注册 接口--实现类
-            }*/
+            /* services.AddScoped<IDbContext>(serviceProvider =>
+             {
+                string _connString =   Appsettings.app(new string[] { "AppSettings", "MySql", "MySqlConnection" });
+                 return new MySqlContext(new DbConnectionFactory(() =>
+                 {
+                     IDbConnection conn = new MySqlConnection(_connString);
+                     return conn;
+                 }));
+             });
+             //先注入 IDbContext，再注入业务
+             Assembly assembly = Assembly.Load("QinServices");
+             Type[] types = assembly.GetTypes();
+             foreach (Type item in types)
+             {
+                 var inters = item.GetInterfaces().Where(k => !k.Name.Contains("IBaseRepository") && !k.IsClass).ToArray();
+                 if (item.IsClass && (inters == null || inters.Count() == 0))
+                     services.AddTransient(item); // 注册单独类
+                 else
+                     foreach (var inter in inters)
+                         services.AddTransient(inter, item); //注册 接口--实现类
+             }*/
             #endregion
 
         }

@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 
 namespace QinOpen.IApplicationBuilderExtend
 {
@@ -15,7 +16,7 @@ namespace QinOpen.IApplicationBuilderExtend
     public static class ServicesInjection
     {
         public static void InjectionBusinessServer(this IServiceCollection services)
-        { 
+        {
             #region 在当前QinOpen程序集上，动态注入实例 InjectionBusinessServer.json，Example=不带接口，InterExample带接口的
 
             string text = File.ReadAllText("IApplicationBuilderExtend/InjectionBusinessServer.json");
@@ -36,7 +37,9 @@ namespace QinOpen.IApplicationBuilderExtend
                 Type aa = Type.GetType(Realizationname, true, true);
                 services.AddTransient(tt, aa);
             }
+            //services.AddTransient<ClientErrorData, MessageModel>();
 
+            
             #endregion
         }
 

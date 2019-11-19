@@ -4,8 +4,8 @@ namespace QinCommon.Common.AppConfig
 {
     public class AppSecretConfig
     {
-        private static string Audience_Secret = Appsettings.app(new string[] { "Audience", "Secret" });
-        private static string Audience_Secret_File = Appsettings.app(new string[] { "Audience", "SecretFile" });
+        private static string Audience_Secret = Appsettings.app(new string[] { "Appsettings", "Audience", "Secret" });
+        private static string Audience_Secret_File = Appsettings.app(new string[] { "Appsettings", "Audience", "SecretFile" });
 
 
         public static string Audience_Secret_String => InitAudience_Secret();
@@ -14,7 +14,7 @@ namespace QinCommon.Common.AppConfig
         private static string InitAudience_Secret()
         {
             var securityString = DifDBConnOfSecurity(Audience_Secret_File);
-            if (!string.IsNullOrEmpty(Audience_Secret_File)&& !string.IsNullOrEmpty(securityString))
+            if (!string.IsNullOrEmpty(Audience_Secret_File) && !string.IsNullOrEmpty(securityString))
             {
                 return securityString;
             }

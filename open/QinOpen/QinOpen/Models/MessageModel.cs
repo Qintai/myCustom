@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ namespace QinOpen
     /// <summary>
     /// 通用返回信息类
     /// </summary>
-    public class MessageModel
+    public class MessageModel/*: ClientErrorData*/
     {
         /// <summary>
         /// 操作是否成功

@@ -8,15 +8,19 @@ namespace QinEntity
     /// </summary>
     public class zCustomUser
     {
-
         [SugarColumn(IsNullable = false, IsPrimaryKey = true, IsIdentity = true, ColumnDescription = "主键ID")]
         public int Id { get; set; }
 
         /// <summary>
-        /// 名字
+        /// 昵称
         /// </summary>
         [SugarColumn(ColumnDescription = "名称")]
         public string Name { get; set; }
+
+        /// <summary>
+        /// 密码
+        /// </summary>
+        public string pwd { get; set; }
 
         /// <summary>
         /// 性别
@@ -42,7 +46,6 @@ namespace QinEntity
             }
         }
 
-
+        
     }
-
 }
