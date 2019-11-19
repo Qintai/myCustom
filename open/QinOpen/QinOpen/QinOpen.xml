@@ -1,0 +1,71 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>QinOpen</name>
+    </assembly>
+    <members>
+        <member name="M:QinOpen.Controllers.ProjectUserController.Login(System.String,System.String)">
+            <summary>
+            登陆接口
+            </summary>
+            <param name="name">用户名</param>
+            <param name="pwd">密码</param>
+            <returns></returns>
+        </member>
+        <member name="M:QinOpen.Controllers.ProjectUserController.GetUserList">
+            <summary>
+            用户列表--C级权限访问
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:QinOpen.DBInit">
+            <summary>
+              
+            </summary>
+        </member>
+        <member name="M:QinOpen.DBInit.DbInitialization(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+        </member>
+        <member name="T:QinOpen.IApplicationBuilderExtend.ServicesInjection">
+            <summary>
+            读取Json的配置，自定义Json的配置，json文件内容，通过IOptions，映射成实体
+            https://www.cnblogs.com/dotnet261010/p/10172961.html 
+            https://www.cnblogs.com/CreateMyself/p/6859076.html
+            </summary>
+        </member>
+        <member name="T:QinOpen.MessageModel">
+            <summary>
+            通用返回信息类
+            </summary>
+        </member>
+        <member name="P:QinOpen.MessageModel.success">
+            <summary>
+            操作是否成功
+            </summary>
+        </member>
+        <member name="P:QinOpen.MessageModel.msg">
+            <summary>
+            返回信息
+            </summary>
+        </member>
+        <member name="P:QinOpen.MessageModel.code">
+            <summary>
+            返回状态码
+            </summary>
+        </member>
+        <member name="P:QinOpen.MessageModel.data">
+            <summary>
+            返回数据
+            </summary>
+        </member>
+        <member name="T:QinOpen.Startup">
+            <summary>
+              
+            </summary>
+        </member>
+    </members>
+</doc>

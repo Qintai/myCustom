@@ -10,6 +10,11 @@ namespace QinRepository
     {
         private readonly ISqlSugarClient _db;
 
+        public  SqlSuger(ISqlSugarClient db)
+        {
+            _db = db;
+        }
+
         public entity this[object objId] => GetModel(objId);
 
         public List<entity> GetList()

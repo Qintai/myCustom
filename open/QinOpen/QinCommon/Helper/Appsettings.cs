@@ -12,6 +12,8 @@ namespace QinCommon.Common
     {
         static IConfiguration Configuration { get; set; }
 
+        //static string contentPath { get; set; }
+
         public Appsettings(string contentPath)
         {
             string Path = "appsettings.json";

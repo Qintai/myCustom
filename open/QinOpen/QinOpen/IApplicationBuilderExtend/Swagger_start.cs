@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using System;
+using System.IO;
 
 namespace QinOpen.IApplicationBuilderExtend
 {
@@ -8,11 +10,20 @@ namespace QinOpen.IApplicationBuilderExtend
     {
         public static void Swagger(this IServiceCollection services)
         {
+            var basePath = AppContext.BaseDirectory;
             // 预发行版本：Swashbuckle.AspNetCore ，拥有一切swagger的配置项
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "myapi", Version = "v1" });
 
+
+                var xmlPath = Path.Combine(basePath, "QinOpen.xml");//这个就是刚刚配置的xml文件名
+                c.IncludeXmlComments(xmlPath, true);//默认的第二个参数是false，这个是controller的注释，记得修改
+             
+                //c.OperationFilter<AddResponseHeadersFilter>();
+                //c.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
+
+                //c.OperationFilter<SecurityRequirementsOperationFilter>();
                 #region Core2.2的写法，已经注释
 
                 // c.SwaggerDoc("QinOpen", new Info()

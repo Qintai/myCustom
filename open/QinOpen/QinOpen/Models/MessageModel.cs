@@ -27,22 +27,7 @@ namespace QinOpen
         /// <summary>
         /// 返回数据
         /// </summary>
-        public object data;
-
-        /// <summary>
-        /// 返回数据集合
-        /// </summary>
-        //public object response
-        //{
-        //    get
-        //    {
-        //        return this.data;
-        //    }
-        //    set
-        //    {
-        //        this.data = Newtonsoft.Json.JsonConvert.SerializeObject(value);
-        //    }
-        //}
+        public object data { get; set; }
 
     }
 }

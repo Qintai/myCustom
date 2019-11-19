@@ -16,14 +16,16 @@ namespace QinOpen.Controllers
             _logger = logger;
         }
 
+        [HttpGet]
         public IActionResult Index()
         {
             // services.Configure<InterExample>(configuration.GetSection("InterExample"));  //配置为 InterExample 注入对象成功
             //InterExample interExample = (InterExample)HttpContext.RequestServices.GetService(typeof(InterExample));
-
+     
             return View();
         }
 
+        [HttpGet]
         public IActionResult Privacy()
         {
             return View();

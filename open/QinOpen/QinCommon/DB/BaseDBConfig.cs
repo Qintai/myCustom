@@ -63,6 +63,7 @@ namespace QinCommon.Common.DB
                 catch (System.Exception) { }
             }
 
+            //在指定的目录，都没找到的话，就取链接配置文件中的那个
             return conn[conn.Length - 1];
         }
 
