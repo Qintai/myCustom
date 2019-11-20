@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,6 +27,7 @@ namespace QinOpen
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();  
             services.AddSingleton(new QinCommon.Common.Appsettings(_env.ContentRootPath));  //注入读取配置文件的类
             services.AddControllersWithViews();
             services.Swagger();
@@ -34,8 +36,11 @@ namespace QinOpen
             services.InjectionBusinessServer(); 
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHttpContextAccessor accessor)
         {
+
+            QinCommon.HttpContextUser.HttpContextHelper.Accessor=accessor;
+
             if (env.IsDevelopment())
                 app.UseDeveloperExceptionPage();
             else

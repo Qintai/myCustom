@@ -10,7 +10,7 @@ namespace QinOpen
     /// <summary>
     /// 
     /// </summary>
-    public class MyRequiredAttribute: RequiredAttribute
+    public class MyRequiredAttribute : RequiredAttribute
     {
         public override bool RequiresValidationContext => true;
 
@@ -33,7 +33,7 @@ namespace QinOpen
     //{
     //    public override void GetObjectData(SerializationInfo info, StreamingContext context)
     //    {
-           
+
     //        base.GetObjectData(info, context);
     //    }
     //}
