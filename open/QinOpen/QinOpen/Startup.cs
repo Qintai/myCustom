@@ -1,8 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using QinOpen.IApplicationBuilderExtend;
 using QinOpen.Middleware;
@@ -31,6 +34,12 @@ namespace QinOpen
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.TryAddSingleton<IClientErrorFactory, ProblemDetailsClientErrorFactory>();
+            services.TryAddSingleton<IClientErrorFactory, pp>();
+            //services.TryAddSingleton<ObjectResult, Ae>();
+            
+            //services.AddSingleton<IClientErrorFactory, pp>();
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton(new QinCommon.Common.Appsettings(_env.ContentRootPath));  //注入读取配置文件的类
             services.AddControllersWithViews();
@@ -53,15 +62,16 @@ namespace QinOpen
                         //var dwy = a.ReadBodyAsync(context.Response);
                         //var result = dwy.Result;
 
-                        {
-                            string str = "";
-                            var body = context.Response.Body;
-                            using (StreamReader sr = new StreamReader(body, Encoding.UTF8, true, 1024, true))//这里注意Body部分不能随StreamReader一起释放
-                            {
-                                 str = await sr.ReadToEndAsync();
-                            }
-
-                        }
+                    //    {
+                    //        string str = "";
+                    //        var body = context.Response.Body;
+                    //        using (StreamReader sr = new StreamReader(body, Encoding.UTF8, true, 1024, true))//这里注意Body部分不能随StreamReader一起释放
+                    //        {
+                    //             string ppo=sr.ReadToEnd();
+                    //             // str = await sr.ReadToEndAsync();
+                    //        }
+                    //
+                    //    }
 
 
                         {

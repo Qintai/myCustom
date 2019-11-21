@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using QinCommon.Common.Helper;
 using QinEntity;
+using QinOpen.Filter;
 using QinServices;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -78,6 +79,7 @@ namespace QinOpen.Controllers
         /// <param name="viewmodel"></param>
         /// <returns></returns>
         [HttpGet]
+        [Myself]
         public MessageModel GetCustom([FromQuery]ViewModel viewmodel)
         {
             _msg.code = ModelState.IsValid.ToString();
