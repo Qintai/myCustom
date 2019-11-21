@@ -70,6 +70,12 @@
             
             </summary>
         </member>
+        <member name="M:QinOpen.Filter.MyIValidationMetadataProvider.CreateValidationMetadata(Microsoft.AspNetCore.Mvc.ModelBinding.Metadata.ValidationMetadataProviderContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
         <member name="T:QinOpen.MyRequiredAttribute">
             <summary>
             
@@ -92,6 +98,24 @@
             读取Json的配置，自定义Json的配置，json文件内容，通过IOptions，映射成实体
             https://www.cnblogs.com/dotnet261010/p/10172961.html 
             https://www.cnblogs.com/CreateMyself/p/6859076.html
+            </summary>
+        </member>
+        <member name="T:QinOpen.Middleware.A">
+            <summary>
+            解析 Response body 里面的内容
+            </summary>
+        </member>
+        <member name="M:QinOpen.Middleware.A.ReadBodyAsync(Microsoft.AspNetCore.Http.HttpResponse)">
+            <summary>
+            解析 Response body 里面的内容
+            </summary>
+            <param name="response"></param>
+            <returns></returns>
+        </member>
+        <member name="T:QinOpen.Middleware.ErrorHandlingMiddleware">
+            <summary>
+            // https://www.cnblogs.com/jomzhang/p/9253647.html
+            
             </summary>
         </member>
         <member name="T:QinOpen.MessageModel">
