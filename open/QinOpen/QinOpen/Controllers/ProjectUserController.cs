@@ -79,7 +79,8 @@ namespace QinOpen.Controllers
         /// <param name="viewmodel"></param>
         /// <returns></returns>
         [HttpGet]
-        [Myself]
+        //[Myself]
+        [PPP]
         public MessageModel GetCustom([FromQuery]ViewModel viewmodel)
         {
             _msg.code = ModelState.IsValid.ToString();

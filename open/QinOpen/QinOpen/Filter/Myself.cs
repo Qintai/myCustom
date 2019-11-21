@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc.Filters;
 using System;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 /*
  HttpResponse也是一个抽象类，我们使用它来输出对请求的响应，如设置HTTP状态码，Cookies，HTTP响应报文头，响应主体等，
  以及提供了一些将响应发送到客户端时的相关事件。其 HasStarted 属性用来表示响应是否已开始发往客户端，
@@ -57,5 +58,54 @@ namespace QinOpen.Filter
         }
 
 
+    }
+
+
+    public class PPP : Attribute, IActionFilter
+    {
+        public void OnResourceExecuted(ResourceExecutedContext context)
+        {
+            context.HttpContext.Response.Clear();
+            context.HttpContext.Response.WriteAsync("444444"); //这里这么些，会追加到 之前内容的后面
+        }
+
+        public void OnResourceExecuting(ResourceExecutingContext context)
+        { }
+
+        /// <summary>
+        /// 这个方法就是   context.HttpContext.Response.Clear()
+        /// response.HasStarted=true。代表请求，已经发起，无法撤销
+        /// </summary>
+        /// <param name="response"></param>
+        public void Clear(HttpResponse response)
+        {
+            if (response.HasStarted)
+                // 无法清除响应，它已开始发送。
+                throw new InvalidOperationException("The response cannot be cleared, it has already started sending.");
+
+            response.StatusCode = 200;
+            response.HttpContext.Features.Get<IHttpResponseFeature>().ReasonPhrase = null;
+            response.Headers.Clear();
+            if (response.Body.CanSeek)
+                response.Body.SetLength(0);
+        }
+
+        public void OnActionExecuted(ActionExecutedContext context)
+        {
+            context.HttpContext.Response.Clear();
+            context.HttpContext.Response.WriteAsync("444444"); //这里这么些，会追加到 之前内容的后面
+        }
+
+        public void OnActionExecuting(ActionExecutingContext context)
+        {
+            context.HttpContext.Response.Clear();
+            context.HttpContext.Response.WriteAsync("444444"); //这里这么些，会追加到 之前内容的后面
+        }
+    }
+
+    // 要么是 BindingBehaviorAttribute ，或者 ModelAttributes
+    public class KKK : Microsoft.AspNetCore.Mvc.ModelBinding.BindingBehaviorAttribute //.ModelAttributes
+    { 
+    
     }
 }
