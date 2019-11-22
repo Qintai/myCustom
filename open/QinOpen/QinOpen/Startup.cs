@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
+using QinOpen.Filter;
 using QinOpen.IApplicationBuilderExtend;
 using QinOpen.Middleware;
 using System;
@@ -34,11 +35,12 @@ namespace QinOpen
 
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.TryAddSingleton<IClientErrorFactory, ProblemDetailsClientErrorFactory>();
-            services.TryAddSingleton<IClientErrorFactory, pp>();
-            //services.TryAddSingleton<ObjectResult, Ae>();
-            
+            services.TryAddSingleton<IClientErrorFactory, pp>();  // 默认的实现是 ProblemDetailsClientErrorFactory
+                                                                  //services.TryAddSingleton<ObjectResult, Ae>();
+
             //services.AddSingleton<IClientErrorFactory, pp>();
+
+            services.TryAddSingleton<BadRequestObjectResult, MyBadRequestObjectResult>();
 
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton(new QinCommon.Common.Appsettings(_env.ContentRootPath));  //注入读取配置文件的类
@@ -47,6 +49,11 @@ namespace QinOpen
             services.Jwt();
             services.DbInitialization(_configuration);
             services.InjectionBusinessServer();
+
+
+            services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true); //禁用自带 的验证
+            services.AddMvc(a => a.Filters.Add<GlobalAction>()); // GlobalAction  测试 ActionFileer，
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHttpContextAccessor accessor)
@@ -62,16 +69,16 @@ namespace QinOpen
                         //var dwy = a.ReadBodyAsync(context.Response);
                         //var result = dwy.Result;
 
-                    //    {
-                    //        string str = "";
-                    //        var body = context.Response.Body;
-                    //        using (StreamReader sr = new StreamReader(body, Encoding.UTF8, true, 1024, true))//这里注意Body部分不能随StreamReader一起释放
-                    //        {
-                    //             string ppo=sr.ReadToEnd();
-                    //             // str = await sr.ReadToEndAsync();
-                    //        }
-                    //
-                    //    }
+                        //    {
+                        //        string str = "";
+                        //        var body = context.Response.Body;
+                        //        using (StreamReader sr = new StreamReader(body, Encoding.UTF8, true, 1024, true))//这里注意Body部分不能随StreamReader一起释放
+                        //        {
+                        //             string ppo=sr.ReadToEnd();
+                        //             // str = await sr.ReadToEndAsync();
+                        //        }
+                        //
+                        //    }
 
 
                         {

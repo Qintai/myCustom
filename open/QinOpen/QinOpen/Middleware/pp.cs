@@ -11,6 +11,7 @@ namespace QinOpen.Middleware
     {
         public IActionResult GetClientError(ActionContext actionContext, IClientErrorActionResult clientError)
         {
+
             return new JsonResult("错了");
         }
     }

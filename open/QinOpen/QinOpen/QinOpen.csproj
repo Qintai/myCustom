@@ -8,6 +8,7 @@
     <DocumentationFile>E:\LC\myCustom\open\QinOpen\QinOpen\QinOpen.xml</DocumentationFile>
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
     <ErrorReport>prompt</ErrorReport>
+    <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>

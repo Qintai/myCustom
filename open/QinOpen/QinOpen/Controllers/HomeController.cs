@@ -11,8 +11,9 @@ namespace QinOpen.Controllers
         private readonly ILogger<HomeController> _logger;
 
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, Microsoft.AspNetCore.Mvc.Infrastructure.IClientErrorFactory clientError)
         {
+
             _logger = logger;
         }
 

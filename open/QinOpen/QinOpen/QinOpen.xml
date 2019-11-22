@@ -76,6 +76,31 @@
             </summary>
             <param name="context"></param>
         </member>
+        <member name="T:QinOpen.Filter.CustomResource">
+            <summary>
+            资源Filter，可以拦截到
+            </summary>
+        </member>
+        <member name="M:QinOpen.Filter.CustomResource.Clear(Microsoft.AspNetCore.Http.HttpResponse)">
+            <summary>
+            这个方法就是   context.HttpContext.Response.Clear()
+            response.HasStarted=true。代表请求，已经发起，无法撤销
+            </summary>
+            <param name="response"></param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:QinOpen.Filter.GlobalAction" -->
+        <member name="M:QinOpen.Filter.GlobalAction.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:QinOpen.Filter.GlobalAction.CustomActionAttribute" -->
+        <member name="T:QinOpen.Filter.ValidationError">
+            <summary>
+            验证错误的类型
+            </summary>
+        </member>
         <member name="T:QinOpen.MyRequiredAttribute">
             <summary>
             
