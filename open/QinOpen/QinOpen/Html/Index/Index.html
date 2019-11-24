@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>获取JWTtoken</title>
+</head>
+<body>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <h3>获取JWTtoken</h3>
+    <button onclick="val()">验证</button>
+    <button onclick="jsonpdemo()">JSONP验证</button>
+
+    <script>
+        var token = '';
+        var gettoken = function () {
+            $.ajax({
+                url: 'http://localhost:5000/default/GetJwt',
+                type: 'get',
+                success: function (res) {
+                    var add = JSON.parse(res);
+                    token = add.token;
+                }
+            });
+        };
+
+        function val() {
+            $.ajax({
+                url: 'http://localhost:5000/default/lk1',
+                type: "Post",
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                headers: { "Authorization": 'Bearer ' + token },
+                data: { name: "小伟", age: "99" },
+                success: function (res) {
+                    alert(res);
+                }
+            });
+        }
+
+        function jsonpdemo() {
+            $.ajax({
+                type: "get",
+                //async: false,
+                url: 'http://localhost:5000/home/JsonDemo',
+                dataType: "jsonp",
+                // jsonp: "a",//传递给请求处理程序或页面的，用以获得jsonp回调函数名的参数名(一般默认为:callback)
+                //  jsonpCallback: "KM",//自定义的jsonp回调函数名称，默认为jQuery自动生成的随机函数名，也可以写"?"，    JQuery会自动为你处理数据
+                success: function (json) {
+                    console.info(json);
+                },
+                error: function () { }
+            });
+        }
+
+    </script>
+
+
+</body>
+</html>

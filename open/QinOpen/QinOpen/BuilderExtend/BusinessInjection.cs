@@ -14,13 +14,10 @@ using System.Reflection;
 
 namespace QinOpen
 {
-    /// <summary>
-    ///   
-    /// </summary>
     public static class DBInit
     {
         /// <summary>
-        /// 
+        ///  配置数据库的链接
         /// </summary>
         /// <param name="services"></param>
         /// <param name="configuration"></param>

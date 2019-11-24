@@ -44,9 +44,9 @@ namespace QinEntity
  
         public enum Roletype : int
         {
-            admin,
-            cjadmin,
-            topadmin
+            admin_a=0, //数据库库中存int值
+            admin_b=1,
+            admin_c=2,
         }
     }
 }

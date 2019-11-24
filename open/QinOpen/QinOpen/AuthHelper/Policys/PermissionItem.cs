@@ -12,7 +12,7 @@ namespace Blog.Core.AuthHelper
         /// </summary>
         public virtual string Role { get; set; }
         /// <summary>
-        /// 请求Url
+        /// 请求Url，作用：角色名称于请求地址绑定
         /// </summary>
         public virtual string Url { get; set; }
     }

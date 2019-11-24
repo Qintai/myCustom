@@ -30,6 +30,6 @@
     <ProjectReference Include="..\QinServices\QinServices.csproj" />
   </ItemGroup>
 
-  <ProjectExtensions><VisualStudio><UserProperties iapplicationbuilderextend_4injectionbusinessserver_1json__JsonSchema="http://json.schemastore.org/appsettings" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>

@@ -1,5 +1,10 @@
+using log4net.Repository;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using QinCommon;
+using System.IO;
+using System.Reflection;
+using System.Xml;
 
 namespace QinOpen
 {
@@ -7,10 +12,13 @@ namespace QinOpen
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            InItLog4 initlog4 = InItLog4.Instance;
+
+            IHost host = CreateHostBuilder(args).Build();
+            host.Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) 
+        public static IHostBuilder CreateHostBuilder(string[] args)
         {
             return Host.CreateDefaultBuilder(args).ConfigureWebHostDefaults(webBuilder =>
             {

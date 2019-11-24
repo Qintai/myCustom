@@ -27,7 +27,7 @@ namespace Blog.Core.AuthHelper
         /// </summary>
         public string ClaimType { internal get; set; }
         /// <summary>
-        /// 请求路径
+        /// 权限验证或者没有凭据的情况，需要请求的路径
         /// </summary>
         public string LoginPath { get; set; } = "/Api/Login";
         /// <summary>

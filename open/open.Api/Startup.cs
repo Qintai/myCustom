@@ -15,6 +15,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.OpenApi.Models;
+using open.Api.Custom.Route;
 
 namespace open.Api
 {
@@ -263,7 +264,7 @@ namespace open.Api
 
             app.UseMvc(routes =>
             {
-               // routes.Routes.Add(new CystomRoute(app.ApplicationServices)); // IndexRoute 自定义路由处理方式
+                routes.Routes.Add(new CystomRoute(app.ApplicationServices)); // IndexRoute 自定义路由处理方式
                 routes.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}");
             });
 

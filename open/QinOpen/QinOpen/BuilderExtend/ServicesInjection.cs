@@ -2,11 +2,8 @@
 using Newtonsoft.Json.Linq;
 using System;
 using System.IO;
-using System.Reflection;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
 
-namespace QinOpen.IApplicationBuilderExtend
+namespace QinOpen
 {
     /// <summary>
     /// 读取Json的配置，自定义Json的配置，json文件内容，通过IOptions，映射成实体
@@ -15,11 +12,15 @@ namespace QinOpen.IApplicationBuilderExtend
     /// </summary>
     public static class ServicesInjection
     {
+        /// <summary>
+        /// 注入当前程序集需要的 业务信息
+        /// </summary>
+        /// <param name="services"></param>
         public static void InjectionBusinessServer(this IServiceCollection services)
         {
             #region 在当前QinOpen程序集上，动态注入实例 InjectionBusinessServer.json，Example=不带接口，InterExample带接口的
 
-            string text = File.ReadAllText("IApplicationBuilderExtend/InjectionBusinessServer.json");
+            string text = File.ReadAllText("BuilderExtend/InjectionBusinessServer.json");
             var jobject = JObject.Parse(text);
             if (jobject == null || jobject.Count == 0)
                 return;

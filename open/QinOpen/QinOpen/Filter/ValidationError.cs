@@ -34,18 +34,19 @@ namespace QinOpen.Filter
 
         public ValidationResultModel(ModelStateDictionary modelState)
         {
-            string errmsg = "";
-            if (!modelState.IsValid)
-            {
-                foreach (var item in modelState.Values)
-                {
-                    foreach (var error in item.Errors)
-                    {
-                        errmsg += error.ErrorMessage + "|";
-                    }
-                }
-            }
-
+            #region MyRegion
+            //string errmsg = "";
+            //if (!modelState.IsValid)
+            //{
+            //    foreach (var item in modelState.Values)
+            //    {
+            //        foreach (var error in item.Errors)
+            //        {
+            //            errmsg += error.ErrorMessage + "|";
+            //        }
+            //    }
+            //}
+            #endregion
             Message = "Validation Failed";
             Errors = modelState.Keys
                     .SelectMany(key => modelState[key].Errors.Select(x => new ValidationError(key, x.ErrorMessage)))
@@ -55,8 +56,14 @@ namespace QinOpen.Filter
 
     public class ValidationFailedResult : ObjectResult
     {
+        //public ValidationFailedResult(ModelStateDictionary modelState)
+        //       : base(new ValidationResultModel(modelState))
+        //{
+        //    StatusCode = StatusCodes.Status422UnprocessableEntity;
+        //}
+
         public ValidationFailedResult(ModelStateDictionary modelState)
-            : base(new ValidationResultModel(modelState))
+            : base(new MessageModel(modelState))
         {
             StatusCode = StatusCodes.Status422UnprocessableEntity;
         }

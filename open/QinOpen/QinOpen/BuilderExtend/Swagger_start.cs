@@ -3,7 +3,7 @@ using Microsoft.OpenApi.Models;
 using System;
 using System.IO;
 
-namespace QinOpen.IApplicationBuilderExtend
+namespace QinOpen
 {
     //https://www.cnblogs.com/taotaozhuanyong/p/11602820.html
     public static class Swagger_start

@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,9 +10,8 @@ namespace QinOpen.Middleware
     /// <summary>
     /// 解析 Response body 里面的内容
     /// </summary>
-    public class A
+    public class AnalysisResponse
     {
-
         /// <summary>
         /// 解析 Response body 里面的内容
         /// </summary>
