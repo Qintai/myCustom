@@ -14,22 +14,36 @@ namespace QinCommon
     /// </summary>
     public class InItLog4
     {
-        private static readonly InItLog4 _instance = null;
-        static InItLog4()
+        private static  InItLog4 _instance = null;
+
+        private static readonly object obj=new object();
+
+        /// <summary>
+        /// 初始化Log4net的插件
+        /// </summary>
+        public static void InitLog4net()
+        {
+            if (_instance==null)
+	        {
+                lock (obj)
+                {
+                    if (_instance == null)
+                    {
+                        _instance = new InItLog4();
+                    }
+                }
+            }
+        }
+
+        private InItLog4() 
         {
             XmlDocument log4netConfig = new XmlDocument();
             log4netConfig.Load(File.OpenRead("Log4net.config"));
             ILoggerRepository repo = log4net.LogManager.CreateRepository
                 (Assembly.GetEntryAssembly(), typeof(log4net.Repository.Hierarchy.Hierarchy));
             log4net.Config.XmlConfigurator.Configure(repo, log4netConfig["log4net"]);
+        }
 
-            _instance = new InItLog4();
-        }
-        public static InItLog4 Instance
-        {
-            get { return _instance; }
-        }
-        private InItLog4() { }
     }
 
     /// <summary>

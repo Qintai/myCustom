@@ -12,7 +12,7 @@ namespace QinOpen
     {
         public static void Main(string[] args)
         {
-            InItLog4 initlog4 = InItLog4.Instance;
+            InItLog4.InitLog4net();
 
             IHost host = CreateHostBuilder(args).Build();
             host.Run();
