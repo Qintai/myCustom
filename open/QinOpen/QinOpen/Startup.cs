@@ -1,3 +1,4 @@
+using Autofac;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -24,6 +25,15 @@ namespace QinOpen
         {
             _configuration = configuration;
             _env = env;
+        }
+
+        /// <summary>
+        /// AutoFac
+        /// </summary>
+        /// <param name="containerBuilder"></param>
+        public void ConfigureServices(ContainerBuilder containerBuilder)
+        {
+            containerBuilder.RegisterModule<CustomAutofacModule>();
         }
 
 
