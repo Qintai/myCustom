@@ -1,2 +1,0 @@
-2019-11-11 11:56:12,983 [8] ERROR open.Api.Controllers.DefaultController - 这里是ILoggerFactory Error
-2019-11-11 11:56:12,991 [8] ERROR open.Api.Controllers.DefaultController - 这里是ILogger<DefaultController> Error
