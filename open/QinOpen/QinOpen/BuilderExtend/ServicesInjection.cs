@@ -16,32 +16,33 @@ namespace QinOpen
         /// 注入当前程序集需要的 业务信息
         /// </summary>
         /// <param name="services"></param>
+        [Obsolete]
         public static void InjectionBusinessServer(this IServiceCollection services)
         {
-            #region 在当前QinOpen程序集上，动态注入实例 InjectionBusinessServer.json，Example=不带接口，InterExample带接口的
-
-            string text = File.ReadAllText("BuilderExtend/InjectionBusinessServer.json");
-            var jobject = JObject.Parse(text);
-            if (jobject == null || jobject.Count == 0)
-                return;
-            foreach (var item in jobject["Example"])
-            {
-                string name = ((JProperty)item).Name;
-                Type tt = Type.GetType(name, true, true);
-                services.AddTransient(tt);
-            }
-            foreach (var item in jobject["InterExample"])
-            {
-                string abstractname = ((JProperty)item).Name;
-                string Realizationname = ((JProperty)item).Value.ToString();
-                Type tt = Type.GetType(abstractname, true, true);
-                Type aa = Type.GetType(Realizationname, true, true);
-                services.AddTransient(tt, aa);
-            }
-            //services.AddTransient<ClientErrorData, MessageModel>();
-
-            
-            #endregion
+       //    #region 在当前QinOpen程序集上，动态注入实例 InjectionBusinessServer.json，Example=不带接口，InterExample带接口的
+       //
+       //    string text = File.ReadAllText("BuilderExtend/InjectionBusinessServer.json");
+       //    var jobject = JObject.Parse(text);
+       //    if (jobject == null || jobject.Count == 0)
+       //        return;
+       //    foreach (var item in jobject["Example"])
+       //    {
+       //        string name = ((JProperty)item).Name;
+       //        Type tt = Type.GetType(name, true, true);
+       //        services.AddTransient(tt);
+       //    }
+       //    foreach (var item in jobject["InterExample"])
+       //    {
+       //        string abstractname = ((JProperty)item).Name;
+       //        string Realizationname = ((JProperty)item).Value.ToString();
+       //        Type tt = Type.GetType(abstractname, true, true);
+       //        Type aa = Type.GetType(Realizationname, true, true);
+       //        services.AddTransient(tt, aa);
+       //    }
+       //    //services.AddTransient<ClientErrorData, MessageModel>();
+       //
+       //    
+       //    #endregion
         }
 
     }

@@ -1,4 +1,5 @@
 using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -21,17 +22,25 @@ namespace QinOpen
 
         public IWebHostEnvironment _env { get; }
 
+        public ILifetimeScope _autofacContainer { get; private set; }
+
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             _configuration = configuration;
             _env = env;
+            //var builder = new ConfigurationBuilder()
+            //    .SetBasePath(env.ContentRootPath)
+            //    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            //    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+            //    .AddEnvironmentVariables();
+            //    this._configuration = builder.Build();
         }
 
         /// <summary>
         /// AutoFac
         /// </summary>
         /// <param name="containerBuilder"></param>
-        public void ConfigureServices(ContainerBuilder containerBuilder)
+        public void ConfigureContainer(ContainerBuilder containerBuilder)
         {
             containerBuilder.RegisterModule<CustomAutofacModule>();
         }
@@ -64,9 +73,9 @@ namespace QinOpen
             services.AddControllersWithViews();
             services.Swagger();
             services.Jwt();
-            //services.AddCustomAuthorization();
-            services.DbInitialization(_configuration);
-            services.InjectionBusinessServer();
+            // services.AddCustomAuthorization(); //放到autofac中
+            // services.DbInitialization(_configuration);
+            // services.InjectionBusinessServer();
 
             #region 关于ApiBehaviorOptions的说明
             /*
@@ -93,14 +102,15 @@ namespace QinOpen
 
             services.AddSingleton<DynamicRoute>(); //自定义路由用的上的
 
-            services.AddRouting(options => 
-            {
-                
-            });
+            services.AddRouting(options =>
+            { });
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHttpContextAccessor accessor)
         {
+            this._autofacContainer = app.ApplicationServices.GetAutofacRoot();
+
             app.UseErrorHandling();//请求错误提示配置
             QinCommon.HttpContextUser.HttpContextHelper.Accessor = accessor;
 
@@ -185,7 +195,7 @@ namespace QinOpen
 
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=index}/{id?}");
             });
         }
     }

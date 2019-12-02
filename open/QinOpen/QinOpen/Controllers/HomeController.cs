@@ -62,5 +62,12 @@ namespace QinOpen.Controllers
             return "{\"addr\":\"内蒙古自治区 锡林郭勒盟 锡林浩特市\",\"date\":\"1994-05-14\",\"sex\":\"女\",\"ckeck\":true}";
         }
 
+        [HttpGet]
+        public void swagger()
+        {
+            base.Redirect("/swagger/index.html");
+        }
+        
+
     }
 }

@@ -9,4 +9,8 @@
     <ProjectReference Include="..\QinRepository\QinRepository.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Interface\" />
+  </ItemGroup>
+
 </Project>

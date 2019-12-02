@@ -129,9 +129,12 @@ namespace QinOpen.Controllers
         [Authorize(Policy = "EveoneAdmin")] // 等价于 [Authorize(Roles = "admin_b")]
         public MessageModel GetUserList()
         {
-            _msg.data = new List<zUser>();
+            _msg.data = "你获得授权，成功进来了";
             return _msg;
         }
+
+
+        
 
     }
 }

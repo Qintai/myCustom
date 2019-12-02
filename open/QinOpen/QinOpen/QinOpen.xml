@@ -38,23 +38,70 @@
             职能
             </summary>
         </member>
+        <member name="T:QinOpen.CustomAutofacAop">
+            <summary>
+            自定义的Autofac的AOP扩展
+            </summary>
+        </member>
+        <member name="T:QinOpen.CustomAutofacModule">
+            <summary>
+            AutoFac 批量注入
+            </summary>
+        </member>
+        <member name="M:QinOpen.DBInit.DbInitialization(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+             配置数据库的链接
+            </summary>
+            <param name="services"></param>
+            <param name="configuration"></param>
+        </member>
+        <member name="M:QinOpen.JwtAuthorization.Jwt(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加JWT授权，单个角色，单个策略
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:QinOpen.JwtAuthorization.AddCustomAuthorization(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+             自定义的一组授权策略,组名  Permission【Permissions.Name】，组内角色：自定义
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="T:QinOpen.ServicesInjection">
+            <summary>
+            读取Json的配置，自定义Json的配置，json文件内容，通过IOptions，映射成实体
+            https://www.cnblogs.com/dotnet261010/p/10172961.html 
+            https://www.cnblogs.com/CreateMyself/p/6859076.html
+            </summary>
+        </member>
+        <member name="M:QinOpen.ServicesInjection.InjectionBusinessServer(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            注入当前程序集需要的 业务信息
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:QinOpen.Controllers.HomeController.getIp">
+            <summary>
+            拦截路由，后跳转到此
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:QinOpen.Controllers.HomeController.JsonDemo">
+            <summary>
+            JsonDemo
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:QinOpen.Controllers.ProjectUserController">
             <summary>
             用户操作
             </summary>
         </member>
-        <member name="M:QinOpen.Controllers.ProjectUserController.#ctor(QinOpen.MessageModel,QinServices.zCustomUserService,QinServices.zCustomUserRolesService)">
-            <summary>
-            
-            </summary>
-            <param name="msg"></param>
-            <param name="userver"></param>
-        </member>
         <member name="M:QinOpen.Controllers.ProjectUserController.Login(System.String,System.String)">
             <summary>
             登陆接口
             </summary>
-            <param name="name">用户名</param>
+            <param name="Name">用户名</param>
             <param name="pwd">密码</param>
             <returns></returns>
         </member>
@@ -65,17 +112,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:QinOpen.Filter.MyIValidationMetadataProvider">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:QinOpen.Filter.MyIValidationMetadataProvider.CreateValidationMetadata(Microsoft.AspNetCore.Mvc.ModelBinding.Metadata.ValidationMetadataProviderContext)">
-            <summary>
-            
-            </summary>
-            <param name="context"></param>
-        </member>
+        <!-- Badly formed XML comment ignored for member "T:QinOpen.Filter.CustomActionAttribute" -->
         <member name="T:QinOpen.Filter.CustomResource">
             <summary>
             资源Filter，可以拦截到
@@ -89,48 +126,30 @@
             <param name="response"></param>
         </member>
         <!-- Badly formed XML comment ignored for member "T:QinOpen.Filter.GlobalAction" -->
-        <member name="M:QinOpen.Filter.GlobalAction.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
+        <member name="T:QinOpen.Filter.GlobalExceptionsFilter">
             <summary>
-            
+            全局异常错误日志
             </summary>
-            <param name="context"></param>
         </member>
-        <!-- Badly formed XML comment ignored for member "T:QinOpen.Filter.GlobalAction.CustomActionAttribute" -->
+        <member name="M:QinOpen.Filter.GlobalExceptionsFilter.WriteLog(System.String,System.Exception)">
+            <summary>
+            自定义返回格式
+            </summary>
+            <param name="throwMsg"></param>
+            <param name="ex"></param>
+            <returns></returns>
+        </member>
         <member name="T:QinOpen.Filter.ValidationError">
             <summary>
             验证错误的类型
             </summary>
         </member>
-        <member name="T:QinOpen.MyRequiredAttribute">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="T:QinOpen.DBInit">
-            <summary>
-              
-            </summary>
-        </member>
-        <member name="M:QinOpen.DBInit.DbInitialization(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
-            <summary>
-            
-            </summary>
-            <param name="services"></param>
-            <param name="configuration"></param>
-        </member>
-        <member name="T:QinOpen.IApplicationBuilderExtend.ServicesInjection">
-            <summary>
-            读取Json的配置，自定义Json的配置，json文件内容，通过IOptions，映射成实体
-            https://www.cnblogs.com/dotnet261010/p/10172961.html 
-            https://www.cnblogs.com/CreateMyself/p/6859076.html
-            </summary>
-        </member>
-        <member name="T:QinOpen.Middleware.A">
+        <member name="T:QinOpen.Middleware.AnalysisResponse">
             <summary>
             解析 Response body 里面的内容
             </summary>
         </member>
-        <member name="M:QinOpen.Middleware.A.ReadBodyAsync(Microsoft.AspNetCore.Http.HttpResponse)">
+        <member name="M:QinOpen.Middleware.AnalysisResponse.ReadBodyAsync(Microsoft.AspNetCore.Http.HttpResponse)">
             <summary>
             解析 Response body 里面的内容
             </summary>
@@ -168,10 +187,18 @@
             返回数据
             </summary>
         </member>
-        <member name="T:QinOpen.Startup">
+        <member name="T:QinOpen.DynamicRoute">
             <summary>
-              
+            NetCore3.0 的自定义路由。和NetCore3.0以下完全不一样，
+            用来拦截请求中，以 “.ip”结尾的，拦截路由，处理得到新的路由
+            指导博客：https://blog.csdn.net/qq_22949043/article/details/100548137
             </summary>
+        </member>
+        <member name="M:QinOpen.Startup.ConfigureContainer(Autofac.ContainerBuilder)">
+            <summary>
+            AutoFac
+            </summary>
+            <param name="containerBuilder"></param>
         </member>
         <member name="T:Blog.Core.AuthHelper.JwtTokenAuth">
             <summary>
@@ -211,6 +238,28 @@
             <param name="permissionRequirement">在startup中定义的参数</param>
             <returns></returns>
         </member>
+        <member name="T:Blog.Core.AuthHelper.PermissionHandler">
+            <summary>
+            权限授权处理器，
+            </summary>
+        </member>
+        <member name="P:Blog.Core.AuthHelper.PermissionHandler._Schemes">
+            <summary>
+            验证方案提供对象
+            </summary>
+        </member>
+        <member name="F:Blog.Core.AuthHelper.PermissionHandler._accessor">
+            <summary>
+            为了获取HttpContext
+            </summary>
+        </member>
+        <member name="M:Blog.Core.AuthHelper.PermissionHandler.#ctor(Microsoft.AspNetCore.Authentication.IAuthenticationSchemeProvider,Microsoft.AspNetCore.Http.IHttpContextAccessor)">
+            <summary>
+            构造函数注入
+            </summary>
+            <param name="schemes"> 验证方案提供对象</param>
+            <param name="accessor">上下文</param>
+        </member>
         <member name="T:Blog.Core.AuthHelper.PermissionItem">
             <summary>
             用户或角色或其他凭据实体,就像是订单详情一样
@@ -224,7 +273,7 @@
         </member>
         <member name="P:Blog.Core.AuthHelper.PermissionItem.Url">
             <summary>
-            请求Url
+            请求Url，作用：角色名称于请求地址绑定
             </summary>
         </member>
         <member name="T:Blog.Core.AuthHelper.PermissionRequirement">
@@ -252,7 +301,7 @@
         </member>
         <member name="P:Blog.Core.AuthHelper.PermissionRequirement.LoginPath">
             <summary>
-            请求路径
+            权限验证或者没有凭据的情况，需要请求的路径
             </summary>
         </member>
         <member name="P:Blog.Core.AuthHelper.PermissionRequirement.Issuer">
