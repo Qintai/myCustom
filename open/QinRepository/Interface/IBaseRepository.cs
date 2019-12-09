@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QinRepository
 {
-    public interface IBaseRepository<entity>
+    public interface IBaseRepository<entity> where entity : class, new()
     {
         /**************/
         entity this[object objId] { get; }
@@ -36,6 +36,9 @@ namespace QinRepository
 
         Task<List<entity>> GetListByIds(params object[] lstIds);
 
+        bool Updateable(Expression<Func<entity, object>> columns, Expression<Func<entity, bool>> expression);
+
+        bool UpdateableByDictionary(Dictionary<string, object> dt);
 
     }
 }

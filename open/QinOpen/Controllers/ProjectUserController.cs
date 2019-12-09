@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace QinOpen.Controllers
 {
@@ -133,8 +134,41 @@ namespace QinOpen.Controllers
             return _msg;
         }
 
+        /// <summary>
+        /// 更新一个用户
+        /// </summary>
+        /// <returns></returns>
+        [HttpPut]
+        [Authorize(Policy = "EveoneAdmin")]  
+        public MessageModel UpdataUser(int id, string Jsonstr)
+        {
+            JObject jObject = JObject.Parse(Jsonstr);
+            zCustomUser zCustom = new zCustomUser();
+            var props = zCustom.GetType().GetProperties();
+            foreach (var item in jObject)
+            {
+                foreach (var prop in props)
+                {
+                    if (prop.Name.Equals(item.Key))
+                    {
+                        var s = Convert.ChangeType(item.Value, prop.PropertyType); // s需要做数据库关键词过滤
+                        prop.SetValue(zCustom, s, null);
+                    }
+                }
+            }
+            //_msg.success = _userver.Updateable(k => new zCustomUser() { Name = "小的" }, k => k.Id == id); //举例
+            _msg.success = _userver.Updateable(k => zCustom, k => k.Id == id);
 
-        
+            return _msg;
+        }
+
+        //前端直接传递Json，
+        public MessageModel UpdataUser1([FromBody]zCustomUser zCustom)
+        {
+            //zCustom 包含Id，与需要修改的列名，有Id，不知道行不行
+            _msg.success = _userver.Updateable(k => zCustom, k => k.Id == zCustom.Id);
+            return _msg;
+        }
 
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace QinRepository
 {
-    public class SqlSuger<entity> : IBaseRepository<entity>
+    public class SqlSuger<entity> : IBaseRepository<entity> where entity : class, new()
     {
         private readonly ISqlSugarClient _db;
 
@@ -57,6 +57,24 @@ namespace QinRepository
             return await _db.Queryable<entity>().In(lstIds).ToListAsync();
         }
 
+        /// <summary>
+        /// http://www.codeisbug.com/Doc/8/1129
+        /// </summary>
+        /// <param name="columns">需要更新的列</param>
+        /// <param name="expression">查找条件</param>
+        public bool Updateable(Expression<Func<entity, object>> columns, Expression<Func<entity, bool>> expression)
+        {
+           return _db.Updateable<entity>().UpdateColumns(columns).Where(expression).ExecuteCommand()>0;
+        }
+
+
+        public bool UpdateableByDictionary(Dictionary<string, object> dt)
+        {
+            //var dt = new Dictionary<string, object>();
+            //dt.Add("id", 1);
+            //dt.Add("name", "1");
+            return  _db.Updateable(dt).AS(nameof(entity)).ExecuteCommand() > 0;
+        }
 
     }
 }
