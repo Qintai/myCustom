@@ -1,15 +1,15 @@
 ﻿using QinEntity;
 using QinRepository;
-using SqlSugar;
+using QinServices.Interface;
 
 namespace QinServices
 {
-    public class zCustomUserRolesService : SqlSuger<zCustomUserRoles>
+    public class zCustomUserRolesService : IzCustomUserRolesService
     {
-        public zCustomUserRolesService(ISqlSugarClient _db) : base(_db)
-        {
+        //public zCustomUserRolesService(ISqlSugarClient _db) : base(_db)
+        //{
 
-        }
+        //}
 
     }
 }

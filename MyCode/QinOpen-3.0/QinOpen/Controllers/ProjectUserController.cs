@@ -11,6 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using QinServices.Interface;
 
 namespace QinOpen.Controllers
 {
@@ -23,13 +24,13 @@ namespace QinOpen.Controllers
     public class ProjectUserController : Controller
     {
         MessageModel _msg;
-        zCustomUserService _userver;
-        zCustomUserRolesService _roleserver;
+        IzCustomUserService _userver;
+        IzCustomUserRolesService _roleserver;
 
         public ProjectUserController(
             MessageModel msg,
-            zCustomUserService userver,
-            zCustomUserRolesService roleserver
+            IzCustomUserService userver,
+            IzCustomUserRolesService roleserver
             )
         {
             _msg = msg;

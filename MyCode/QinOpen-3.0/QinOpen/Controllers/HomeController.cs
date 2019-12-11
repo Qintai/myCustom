@@ -4,6 +4,8 @@ using Microsoft.Extensions.Options;
 using QinCommon;
 using QinOpen.Models;
 using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace QinOpen.Controllers
 {
@@ -67,7 +69,23 @@ namespace QinOpen.Controllers
         {
             base.Redirect("/swagger/index.html");
         }
-        
+
+
+        [HttpGet]
+        public async Task<string> PO()
+        {
+            _logger.LogDebug("上面" + Thread.CurrentThread.ManagedThreadId.ToString());
+
+            return await Task.Run(() =>
+             {
+                 _logger.LogDebug("里面" + Thread.CurrentThread.ManagedThreadId.ToString());
+
+                 return "1";
+             });
+            _logger.LogDebug("下面" + Thread.CurrentThread.ManagedThreadId.ToString());
+
+            //  "{\"ip\":\"220.181.38.150\",\"dz\":\"北京市\",\"wl\":\"电信互联网数据中心\"}";
+        }
 
     }
 }

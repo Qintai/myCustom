@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Controllers;
 using Newtonsoft.Json.Linq;
 using QinCommon.Common.DB;
 using QinServices;
+using QinServices.Interface;
 
 namespace QinOpen
 {
@@ -53,8 +54,9 @@ namespace QinOpen
             #region 业务的注入
             containerBuilder.Register(c => new CustomAutofacAop());//aop注册
             containerBuilder.RegisterType<A>().As<IA>().EnableInterfaceInterceptors();//AOP
-            containerBuilder.RegisterType<zCustomUserService>(); //注册 瞬时
-            containerBuilder.RegisterType<zCustomUserRolesService>();//瞬时
+
+            containerBuilder.RegisterType<zCustomUserRolesService>().As<IzCustomUserRolesService>();//瞬时
+            containerBuilder.RegisterType<zCustomUserService>().As<IzCustomUserService>();//瞬时
             #endregion
 
             #region 注入当前程序集的
