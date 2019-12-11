@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <RootNamespace>crud_server</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\crud-entity\crud-entity.csproj" />
+      <ProjectReference Include="..\crud_base\crud_base.csproj" />
+    </ItemGroup>
+
+</Project>
