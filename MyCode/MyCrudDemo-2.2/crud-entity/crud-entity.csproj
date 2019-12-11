@@ -6,7 +6,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\crud_base\crud_base\crud_base.csproj" />
+      <ProjectReference Include="..\crud_base\crud_base.csproj" />
     </ItemGroup>
 
     <ItemGroup>
