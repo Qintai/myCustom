@@ -7,7 +7,7 @@ using Chloe;
 
 namespace QinRepository
 {
-    public class ChioeRepository<entity> : IBaseRepository<entity>
+    public class ChioeRepository<entity> : IBaseRepository<entity> where entity : class, new()
     {
         protected IDbContext _context;
 
@@ -66,6 +66,16 @@ namespace QinRepository
         /// <param name="lstIds">id列表（必须指定主键特性 [SugarColumn(IsPrimaryKey=true)]），如果是联合主键，请使用Where条件</param>
         /// <returns>数据实体列表</returns>
         public Task<List<entity>> GetListByIds(params object[] lstIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Updateable(Expression<Func<entity, object>> columns, Expression<Func<entity, bool>> expression)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool UpdateableByDictionary(Dictionary<string, object> dt)
         {
             throw new NotImplementedException();
         }
