@@ -73,9 +73,9 @@ namespace QinOpen
             services.AddControllersWithViews();
             services.Swagger();
             services.Jwt();
-            // services.AddCustomAuthorization(); //放到autofac中
-            // services.DbInitialization(_configuration);
-            // services.InjectionBusinessServer();
+            services.DbInitialization(_configuration);
+            //services.AddCustomAuthorization(); //放到autofac中
+            //services.InjectionBusinessServer();
 
             #region 关于ApiBehaviorOptions的说明
             /*

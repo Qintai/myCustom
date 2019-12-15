@@ -4,9 +4,9 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QinRepository
+namespace IQinRepository
 {
-    public interface IBaseRepository<entity> where entity : class, new()
+    public interface IBaseRepository<entity> where entity : QinEntity.Entity, new()
     {
         /**************/
         entity this[object objId] { get; }

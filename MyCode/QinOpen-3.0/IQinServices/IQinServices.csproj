@@ -3,17 +3,9 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
-    <ApplicationIcon></ApplicationIcon>
+    <ApplicationIcon />
     <StartupObject />
   </PropertyGroup>
-
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>..\QinOpen\bin\Debug\</OutputPath>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <Compile Remove="ChioeRepository.cs" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\IQinRepository\IQinRepository.csproj" />

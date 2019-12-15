@@ -1,10 +1,10 @@
 ﻿using QinEntity;
-using QinRepository;
+using IQinRepository;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace QinServices.Interface
+namespace IQinServices
 {
     public interface IzCustomUserService : IBaseRepository<zCustomUser>
     {

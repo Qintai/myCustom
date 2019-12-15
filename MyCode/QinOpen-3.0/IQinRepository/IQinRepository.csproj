@@ -7,12 +7,8 @@
     <StartupObject />
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <OutputPath>..\QinOpen\bin\Debug\</OutputPath>
-  </PropertyGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\IQinServices\IQinServices.csproj" />
+    <ProjectReference Include="..\QinEntity\QinEntity.csproj" />
   </ItemGroup>
 
 </Project>

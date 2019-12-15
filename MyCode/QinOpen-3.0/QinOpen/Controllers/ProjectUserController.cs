@@ -4,14 +4,13 @@ using Microsoft.IdentityModel.Tokens;
 using QinCommon.Common.Helper;
 using QinEntity;
 using QinOpen.AuthHelper;
-using QinServices;
+using IQinServices;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
-using QinServices.Interface;
 
 namespace QinOpen.Controllers
 {

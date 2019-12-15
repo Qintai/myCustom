@@ -1,17 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
-using Autofac;
+﻿using Autofac;
 using Autofac.Extras.DynamicProxy;
 using Microsoft.AspNetCore.Mvc.ApplicationParts;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Newtonsoft.Json.Linq;
-using QinCommon.Common.DB;
-using QinServices;
-using QinServices.Interface;
+using QinEntity;
+using IQinRepository;
+using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 
 namespace QinOpen
 {
@@ -34,29 +31,58 @@ namespace QinOpen
             builder.RegisterType<ApplicationPartManager>().AsSelf().SingleInstance();//单例
             builder.RegisterTypes(feature.Controllers.Select(ti => ti.AsType()).ToArray()).PropertiesAutowired();
 
-
-            #region SqlSuger
-
-            SqlSugar.SqlSugarClient sqlsuger = new SqlSugar.SqlSugarClient(new SqlSugar.ConnectionConfig()
-            {
-                // "Server=localhost;Port=3306;Database=ut;Uid=root;Pwd=root;CharSet=utf8;CharSet=utf8;"
-                ConnectionString = BaseDBConfig.ConnectionString,//必填, 数据库连接字符串
-                DbType = (SqlSugar.DbType)BaseDBConfig.DbType,//必填, 数据库类型
-                IsAutoCloseConnection = true,//默认false, 时候知道关闭数据库连接, 设置为true无需使用using或者Close操作
-                InitKeyType = SqlSugar.InitKeyType.SystemTable//默认SystemTable, 字段信息读取, 如：该属性是不是主键，标识列等等信息
-            });
-            //  containerBuilder.Register(p => sqlsuger).AsSelf().InstancePerLifetimeScope(); //注册成作用域
-
-            containerBuilder.Register<SqlSugar.SqlSugarClient>(p => sqlsuger).AsSelf(); //注册成作用域
-
-            #endregion
-
+            
             #region 业务的注入
             containerBuilder.Register(c => new CustomAutofacAop());//aop注册
             containerBuilder.RegisterType<A>().As<IA>().EnableInterfaceInterceptors();//AOP
+            var basePath = Microsoft.DotNet.PlatformAbstractions.ApplicationEnvironment.ApplicationBasePath;
 
-            containerBuilder.RegisterType<zCustomUserRolesService>().As<IzCustomUserRolesService>();//瞬时
-            containerBuilder.RegisterType<zCustomUserService>().As<IzCustomUserService>();//瞬时
+            //1-先注册sqlsuger，在 方法    services.DbInitialization(_configuration); 中已经注册
+            //2- 再注册仓储Repository 
+            #region 泛型注入，没能实现，泛型的仓储接口 → 泛型的仓储实现
+            // Type ty = assemblysRepository.GetTypes().FirstOrDefault();
+            //   containerBuilder.RegisterGeneric(ty).As(typeof(IBaseRepository<>))
+            //   .InstancePerDependency();//注册仓储泛型
+
+
+            //containerBuilder.RegisterType<SqlSugerHelper<zCustomUserRoles>>().As<IBaseRepository<zCustomUserRoles>>();
+            //containerBuilder.RegisterType<SqlSugerHelper<zCustomUser>>().As<IBaseRepository<zCustomUser>>();
+            // 因为 完全解耦了，SqlSugerHelper这个是仓储管理员的具体实现-是泛型类
+            // 在这里是不能访问 SqlSugerHelper 他的
+            // 为了实现这两句代码，只能再创建“具体”的仓储管理员，才能实现，
+            // 
+
+            #endregion
+
+            var repositoryDllFile = Path.Combine(basePath, "QinRepository.dll");
+            var assemblysRepository = Assembly.LoadFrom(repositoryDllFile);
+            containerBuilder.RegisterAssemblyTypes(assemblysRepository)
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope(); ;
+
+            //3-再注入服务
+            var servicesDllFile = Path.Combine(basePath, "QinServices.dll");
+            var assemblysServices = Assembly.LoadFrom(servicesDllFile);
+            containerBuilder.RegisterAssemblyTypes(assemblysServices)
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope();
+
+            {
+                //之前的写法
+                //containerBuilder.RegisterType<zCustomUserRolesService>().As<IzCustomUserRolesService>();
+                //containerBuilder.RegisterType<zCustomUserService>().As<IzCustomUserService>();
+            }
+
+
+            /*
+                这样弄彻底解耦项目，直接加载dll文件，如果你新建一个table，你要建立这些类
+                TableEntity（实体）→
+                ItableRepository（接口）→tableRepository（实现类）→
+                ItableService（接口）→tableService（实现类）
+                总共3个接口，2个类
+
+             */
+
             #endregion
 
             #region 注入当前程序集的

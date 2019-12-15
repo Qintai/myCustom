@@ -6,11 +6,8 @@ namespace QinEntity
     /// <summary>
     /// 当前用户表
     /// </summary>
-    public class zCustomUser
+    public class zCustomUser : Entity
     {
-        [SugarColumn(IsNullable = false, IsPrimaryKey = true, IsIdentity = true, ColumnDescription = "主键ID")]
-        public int Id { get; set; }
-
         /// <summary>
         /// 昵称
         /// </summary>
@@ -46,6 +43,6 @@ namespace QinEntity
             }
         }
 
-        
+
     }
 }

@@ -26,8 +26,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\IQinRepository\IQinRepository.csproj" />
+    <ProjectReference Include="..\IQinServices\IQinServices.csproj" />
     <ProjectReference Include="..\QinCommon\QinCommon.csproj" />
-    <ProjectReference Include="..\QinEntity\QinEntity.csproj" />
     <ProjectReference Include="..\QinRepository\QinRepository.csproj" />
     <ProjectReference Include="..\QinServices\QinServices.csproj" />
   </ItemGroup>

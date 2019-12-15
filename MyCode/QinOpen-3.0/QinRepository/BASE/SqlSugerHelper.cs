@@ -1,4 +1,5 @@
-﻿using SqlSugar;
+﻿using IQinRepository;
+using SqlSugar;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
@@ -6,11 +7,12 @@ using System.Threading.Tasks;
 
 namespace QinRepository
 {
-    public class SqlSuger<entity> : IBaseRepository<entity> where entity : class, new()
+    public  class SqlSugerHelper<entity> 
+        : IBaseRepository<entity> where entity : QinEntity.Entity, new()
     {
         private readonly ISqlSugarClient _db;
 
-        public  SqlSuger(ISqlSugarClient db)
+        public SqlSugerHelper(ISqlSugarClient db)
         {
             _db = db;
         }
@@ -64,7 +66,7 @@ namespace QinRepository
         /// <param name="expression">查找条件</param>
         public bool Updateable(Expression<Func<entity, object>> columns, Expression<Func<entity, bool>> expression)
         {
-           return _db.Updateable<entity>().UpdateColumns(columns).Where(expression).ExecuteCommand()>0;
+            return _db.Updateable<entity>().UpdateColumns(columns).Where(expression).ExecuteCommand() > 0;
         }
 
 
@@ -73,7 +75,7 @@ namespace QinRepository
             //var dt = new Dictionary<string, object>();
             //dt.Add("id", 1);
             //dt.Add("name", "1");
-            return  _db.Updateable(dt).AS(nameof(entity)).ExecuteCommand() > 0;
+            return _db.Updateable(dt).AS(nameof(entity)).ExecuteCommand() > 0;
         }
 
     }
