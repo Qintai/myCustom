@@ -170,5 +170,14 @@ namespace QinOpen.Controllers
             return _msg;
         }
 
+        /// <summary>
+        /// 测试json配置文件是否可以读取及时数据
+        /// </summary>
+        /// <returns></returns>
+        public string pp()
+        {
+            return QinCommon.Common.Appsettings
+                .app(new string[] { "a" }); 
+        }
     }
 }

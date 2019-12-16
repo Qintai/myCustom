@@ -107,8 +107,13 @@ namespace QinOpen
 
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHttpContextAccessor accessor)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,
+            IHttpContextAccessor accessor,
+             Microsoft.Extensions.Logging.ILoggerFactory lf)
         {
+
+            var name=_configuration["name"];
+
             this._autofacContainer = app.ApplicationServices.GetAutofacRoot();
 
             app.UseErrorHandling();//«Î«Û¥ÌŒÛÃ· æ≈‰÷√
