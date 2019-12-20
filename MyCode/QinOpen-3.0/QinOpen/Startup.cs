@@ -1,5 +1,6 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -74,6 +75,10 @@ namespace QinOpen
             services.Swagger();
             services.Jwt();
             services.DbInitialization(_configuration);
+
+            services.AddAutoMapper(typeof(AutoMapperConfig));
+            AutoMapperConfig.RegisterMappings();
+
             //services.AddCustomAuthorization(); //∑≈µΩautofac÷–
             //services.InjectionBusinessServer();
 

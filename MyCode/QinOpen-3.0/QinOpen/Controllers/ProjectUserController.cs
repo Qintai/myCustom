@@ -11,6 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
+using System.Linq.Expressions;
 
 namespace QinOpen.Controllers
 {
@@ -23,12 +24,12 @@ namespace QinOpen.Controllers
     public class ProjectUserController : Controller
     {
         MessageModel _msg;
-        IzCustomUserService _userver;
+        IUserService _userver;
         IzCustomUserRolesService _roleserver;
 
         public ProjectUserController(
             MessageModel msg,
-            IzCustomUserService userver,
+            IUserService userver,
             IzCustomUserRolesService roleserver
             )
         {
@@ -139,7 +140,7 @@ namespace QinOpen.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPut]
-        [Authorize(Policy = "EveoneAdmin")]  
+        [Authorize(Policy = "EveoneAdmin")]
         public MessageModel UpdataUser(int id, string Jsonstr)
         {
             JObject jObject = JObject.Parse(Jsonstr);
@@ -157,8 +158,12 @@ namespace QinOpen.Controllers
                 }
             }
             //_msg.success = _userver.Updateable(k => new zCustomUser() { Name = "小的" }, k => k.Id == id); //举例
-            _msg.success = _userver.Updateable(k => zCustom, k => k.Id == id);
-
+            //_msg.success = _userver.Updateable(k => zCustom, k => k.Id == id);
+ 
+            zCustomUser zCustom1=new zCustomUser()  { Name = "小名"};
+            Expression<Func<zCustomUser, zCustomUser>> column = p=> zCustom1;
+            Expression<Func<zCustomUser, bool>> where = k => k.Id == id; 
+            _msg.success = _userver.Update(column, where) >0;
             return _msg;
         }
 
@@ -166,7 +171,9 @@ namespace QinOpen.Controllers
         public MessageModel UpdataUser1([FromBody]zCustomUser zCustom)
         {
             //zCustom 包含Id，与需要修改的列名，有Id，不知道行不行
-            _msg.success = _userver.Updateable(k => zCustom, k => k.Id == zCustom.Id);
+
+            _msg.success = _userver.Update(k => zCustom, k => k.Id == zCustom.Id) >0 ;
+
             return _msg;
         }
 
@@ -174,10 +181,23 @@ namespace QinOpen.Controllers
         /// 测试json配置文件是否可以读取及时数据
         /// </summary>
         /// <returns></returns>
+       [HttpGet]
         public string pp()
         {
             return QinCommon.Common.Appsettings
                 .app(new string[] { "a" }); 
         }
+
+        /// <summary>
+        /// 添加用户
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public MessageModel AddUser([FromBody]AddUserDTO dto) 
+        {
+            _msg.success = _userver.AddUser(dto)>0;
+            return _msg;
+        }
+
     }
 }

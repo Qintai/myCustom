@@ -14,11 +14,18 @@ namespace QinEntity
         [SugarColumn(IsNullable = true)]
         public bool? IsDeleted { get; set; }
 
+        /// <summary>
+        /// 用户Id
+        /// </summary>
         [SugarColumn]
         public int userId { get; set; }
 
+        /// <summary>
+        /// 角色Id
+        /// </summary>
         [SugarColumn]
         public int RoleId { get; set; }
+
         /// <summary>
         /// 添加时间
         /// </summary>

@@ -24,51 +24,186 @@ namespace QinServices
            this.repository = _repository;
         }
 
-        public TEntity this[object objId] => throw new NotImplementedException();
+        public int Add(TEntity parm)
+        {
+           return this.repository.Add(parm);
+        }
+
+        public Task<int> AddAsync(TEntity parm)
+        {
+            return this.repository.AddAsync(parm);
+        }
+
+        public int AddList(List<TEntity> parm)
+        {
+            return this.repository.AddList(parm);
+        }
+
+        public Task<int> AddListAsync(List<TEntity> parm)
+        {
+            return this.repository.AddListAsync(parm);
+        }
+
+        public int Count(Expression<Func<TEntity, bool>> where)
+        {
+            return this.repository.Count(where);
+        }
+
+        public Task<int> CountAsync(Expression<Func<TEntity, bool>> where)
+        {
+            return this.repository.CountAsync(where);
+        }
+
+        public int Delete(Expression<Func<TEntity, bool>> where)
+        {
+            return this.repository.Delete(where);
+        }
+
+        public Task<int> DeleteAsync(string parm)
+        {
+            return this.repository.DeleteAsync(parm);
+        }
+
+        public int Delete(string parm)
+        {
+            return this.repository.Delete(parm);
+        }
+
+        public Task<int> DeleteAsync(Expression<Func<TEntity, bool>> where)
+        {
+            return this.repository.DeleteAsync(where);
+        }
+
+        public List<TEntity> GetList(Expression<Func<TEntity, bool>> where, Expression<Func<TEntity, object>> order, string orderby)
+        {
+            return this.repository.GetList(where, order, orderby);
+        }
 
         public List<TEntity> GetList()
         {
             return this.repository.GetList();
         }
 
-        public Task<List<TEntity>> GetListAsync()
+        public Task<List<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> where, Expression<Func<TEntity, object>> order, string orderby)
+        {
+            return this.repository.GetListAsync(where,order,orderby);
+        }
+
+        public Task<List<TEntity>> GetListAsync(bool Async = true)
         {
             return this.repository.GetListAsync();
         }
 
-        public Task<List<TEntity>> GetListByIds(params object[] lstIds)
+        public TEntity GetModel(string parm)
         {
-            return this.repository.GetListByIds();
+            return this.repository.GetModel(parm);
         }
 
-        public TEntity GetModel(object objId)
+        public TEntity GetModel(Expression<Func<TEntity, bool>> where)
         {
-            return this.repository.GetModel(objId);
+            return this.repository.GetModel(where);
         }
 
-        public TEntity GetModel(Expression<Func<TEntity, bool>> predicate)
+        public Task<TEntity> GetModelAsync(string parm)
         {
-            return this.repository.GetModel(predicate);
+            return this.repository.GetModelAsync(parm);
         }
 
-        public Task<TEntity> GetModelAsync(object Id, bool blnUseCache = false)
+        public Task<TEntity> GetModelAsync(Expression<Func<TEntity, bool>> where)
         {
-            return this.repository.GetModelAsync(Id, blnUseCache);
+            return this.repository.GetModelAsync(where);
         }
 
-        public Task<TEntity> GetModelAsync(Expression<Func<TEntity, bool>> predicate)
+        public Task<bool> IsExistAsync(Expression<Func<TEntity, bool>> where)
         {
-            return this.repository.GetModelAsync(predicate);
+            return this.repository.IsExistAsync(where);
         }
 
-        public bool Updateable(Expression<Func<TEntity, object>> columns, Expression<Func<TEntity, bool>> expression)
+        public bool IsExist(Expression<Func<TEntity, bool>> where)
         {
-            return this.repository.Updateable(columns, expression);
+            return this.repository.IsExist(where);
         }
 
-        public bool UpdateableByDictionary(Dictionary<string, object> dt)
+        public int Update(TEntity parm)
         {
-            return this.repository.UpdateableByDictionary(dt);
+            return this.repository.Update(parm);
         }
+
+        public int Update(List<TEntity> parm)
+        {
+            return this.repository.Update(parm);
+        }
+
+        public int Update(Expression<Func<TEntity, TEntity>> columns, Expression<Func<TEntity, bool>> where)
+        {
+            return this.repository.Update(columns, where);
+        }
+
+        public Task<int> UpdateAsync(TEntity parm)
+        {
+            return this.repository.UpdateAsync(parm);
+        }
+
+        public Task<int> UpdateAsync(List<TEntity> parm)
+        {
+            return this.repository.UpdateAsync(parm);
+        }
+
+        public Task<int> UpdateAsync(Expression<Func<TEntity, TEntity>> columns, Expression<Func<TEntity, bool>> where)
+        {
+            return this.repository.UpdateAsync(columns, where);
+        }
+
+        #region MyRegion
+
+        //  public TEntity this[object objId] => throw new NotImplementedException();
+        //
+        //  public List<TEntity> GetList()
+        //  {
+        //      return this.repository.GetList();
+        //  }
+        //
+        //  public Task<List<TEntity>> GetListAsync()
+        //  {
+        //      return this.repository.GetListAsync();
+        //  }
+        //
+        //  public Task<List<TEntity>> GetListByIds(params object[] lstIds)
+        //  {
+        //      return this.repository.GetListByIds();
+        //  }
+        //
+        //  public TEntity GetModel(object objId)
+        //  {
+        //      return this.repository.GetModel(objId);
+        //  }
+        //
+        //  public TEntity GetModel(Expression<Func<TEntity, bool>> predicate)
+        //  {
+        //      return this.repository.GetModel(predicate);
+        //  }
+        //
+        //  public Task<TEntity> GetModelAsync(object Id, bool blnUseCache = false)
+        //  {
+        //      return this.repository.GetModelAsync(Id, blnUseCache);
+        //  }
+        //
+        //  public Task<TEntity> GetModelAsync(Expression<Func<TEntity, bool>> predicate)
+        //  {
+        //      return this.repository.GetModelAsync(predicate);
+        //  }
+        //
+        //  public bool Updateable(Expression<Func<TEntity, object>> columns, Expression<Func<TEntity, bool>> expression)
+        //  {
+        //      return this.repository.Updateable(columns, expression);
+        //  }
+        //
+        //  public bool UpdateableByDictionary(Dictionary<string, object> dt)
+        //  {
+        //      return this.repository.UpdateableByDictionary(dt);
+        //  }
+        #endregion
+
+
     }
 }
