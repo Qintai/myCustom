@@ -68,7 +68,7 @@ namespace QinOpen
                     //设置时间格式
                     options.SerializerSettings.DateFormatString = "yyyy-MM-dd";
                 });
-            services.AddSingleton<IClientErrorFactory, MyIClientErrorFactory>(); // 默认的实现是 ProblemDetailsClientErrorFactory
+           services.AddSingleton<IClientErrorFactory, MyIClientErrorFactory>(); // 默认的实现是 ProblemDetailsClientErrorFactory
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton(new Appsettings(_env.ContentRootPath));  //注入读取配置文件的类
             services.AddControllersWithViews();
