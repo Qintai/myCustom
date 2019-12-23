@@ -61,7 +61,7 @@ namespace QinOpen.Controllers
         [HttpPost( "")]
         public void TsetA(int id, string Jsonstr)
         {
-            // Json转换实体
+            // Json字符串转换实体
             JObject jObject = JObject.Parse(Jsonstr);
             zCustomUser zCustom = new zCustomUser();
             var props = zCustom.GetType().GetProperties();

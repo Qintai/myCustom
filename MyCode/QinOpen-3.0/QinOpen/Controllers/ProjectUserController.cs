@@ -158,10 +158,11 @@ namespace QinOpen.Controllers
         /// <returns></returns>
         [HttpPut]
         [Authorize(Policy = "EveoneAdmin")]
-        public MessageModel UpdataUser(int id, zCustomUser zCustom1)
+        public MessageModel UpdataUser(int id, AddUserDTO dto)
         {
-           // zCustomUser zCustom1 = new zCustomUser() { Name = "小名" };
-            Expression<Func<zCustomUser, zCustomUser>> column = p => zCustom1;
+            // zCustomUser zCustom1 = new zCustomUser() { Name = "小名" };
+            zCustomUser model=_mapper.Map<zCustomUser>(dto);
+            Expression<Func<zCustomUser, zCustomUser>> column = p => model;
             Expression<Func<zCustomUser, bool>> where = k => k.Id == id;
             _msg.Success = _userver.Update(column, where) > 0;
             return _msg;
