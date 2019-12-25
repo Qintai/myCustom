@@ -12,6 +12,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using System.Linq.Expressions;
+using Microsoft.AspNetCore.Cors;
 
 namespace QinOpen.Controllers
 {
@@ -21,6 +22,7 @@ namespace QinOpen.Controllers
     [ApiController]
     [Route("api/user/[action]")]
     [Produces("application/json")]
+    //[EnableCors("LimitRequests")]
     public class ProjectUserController : Controller
     {
         MessageModel _msg;
@@ -44,7 +46,7 @@ namespace QinOpen.Controllers
         /// <param name="Name">用户名</param>
         /// <param name="pwd">密码</param>
         /// <returns></returns>
-        [Route("{Name}/{pwd}")]
+        //[Route("{Name}/{pwd}")]
         [HttpGet]
         public async Task<MessageModel> Login(string Name, string pwd)
         {

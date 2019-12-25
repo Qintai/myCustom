@@ -65,6 +65,11 @@
             <param name="services"></param>
             <param name="configuration"></param>
         </member>
+        <member name="T:QinOpen.CorsSetup">
+            <summary>
+            Cors 启动服务
+            </summary>
+        </member>
         <member name="M:QinOpen.JwtAuthorization.Jwt(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             添加JWT授权，单个角色，单个策略

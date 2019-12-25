@@ -29,7 +29,7 @@ namespace QinEntity
         /// 添加时间
         /// </summary>
         [SugarColumn(ColumnDescription = "添加时间")]
-        public DateTime? addTime { get; set; }
+        public DateTime? AddTime { get; set; }
 
         /// <summary>
         /// 业务字段：性别

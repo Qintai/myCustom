@@ -22,13 +22,12 @@ namespace QinOpen
 
                 var builder = new ConfigurationBuilder()
                        .SetBasePath(Directory.GetCurrentDirectory())
-                        .AddCommandLine(args);  //可以接收调试应用程序参数
+                        .AddCommandLine(args); //可以接收调试应用程序参数
+
                 var configuration = builder.Build();
                 System.Console.WriteLine($"name：{configuration["name"]}");
                 System.Console.WriteLine($"age：{configuration["age"]}");
             }
-
-
 
             IHost host = CreateHostBuilder(args).Build();
             host.Run();
@@ -41,6 +40,7 @@ namespace QinOpen
                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    webBuilder.UseUrls("http://localhost:802");
                     webBuilder.UseStartup<Startup>();
                 });
 
