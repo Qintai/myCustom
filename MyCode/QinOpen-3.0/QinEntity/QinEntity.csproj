@@ -12,4 +12,8 @@
     <PackageReference Include="sqlSugarCore" Version="5.0.0.11" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\QinCommon\QinCommon.csproj" />
+  </ItemGroup>
+
 </Project>

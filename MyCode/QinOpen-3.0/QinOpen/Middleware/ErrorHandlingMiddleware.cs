@@ -48,7 +48,7 @@ namespace QinOpen.Middleware
                 else if (statusCode == 502)
                     msg = "请求错误";
                 else if (statusCode != 200)
-                    msg = "未知错误";
+                msg = "未知错误";
                 if (!string.IsNullOrWhiteSpace(msg))
                     await HandleExceptionAsync(context, statusCode, msg);
             }
@@ -63,7 +63,7 @@ namespace QinOpen.Middleware
             //    return Task.CompletedTask;
             #endregion
 
-            var result = Newtonsoft.Json.JsonConvert.SerializeObject(new MessageModel() { success = false, msg = msg, code = statusCode.ToString() });
+            var result = Newtonsoft.Json.JsonConvert.SerializeObject(new MessageModel() { Success = false, Msg = msg, Code = statusCode.ToString() });
             context.Response.ContentType = "application/json;charset=utf-8";
             await context.Response.WriteAsync(result);
         }

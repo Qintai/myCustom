@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json.Linq;
 using System.Linq.Expressions;
 using Microsoft.AspNetCore.Cors;
+using AutoMapper;
 
 namespace QinOpen.Controllers
 {
@@ -25,19 +26,22 @@ namespace QinOpen.Controllers
     //[EnableCors("LimitRequests")]
     public class ProjectUserController : Controller
     {
-        MessageModel _msg;
+        MessageModel _msg=new MessageModel();
         IUserService _userver;
         IzCustomUserRolesService _roleserver;
+        IMapper _mapper;
 
         public ProjectUserController(
             MessageModel msg,
             IUserService userver,
-            IzCustomUserRolesService roleserver
+            IzCustomUserRolesService roleserver,
+            IMapper mapper
             )
         {
-            _msg = msg;
+            //_msg = msg;
             _userver = userver;
             _roleserver = roleserver;
+            _mapper = mapper;
         }
 
         /// <summary>
@@ -46,21 +50,21 @@ namespace QinOpen.Controllers
         /// <param name="Name">用户名</param>
         /// <param name="pwd">密码</param>
         /// <returns></returns>
-        //[Route("{Name}/{pwd}")]
+       // [Route("{Name}/{pwd}")]
         [HttpGet]
         public async Task<MessageModel> Login(string Name, string pwd)
         {
             var model = await _userver.GetModelAsync(m => m.Name.Equals(Name));
             if (model == null)
             {
-                _msg.msg = "没有找到用户！";
-                _msg.success = false;
+                _msg.Msg = "没有找到用户！";
+                _msg.Success = false;
                 return _msg;
             }
             if (model.pwd != MD5Helper.MD5Encrypt32(pwd))
             {
-                _msg.msg = "用户密码输入错误！";
-                _msg.success = false;
+                _msg.Msg = "用户密码输入错误！";
+                _msg.Success = false;
                 return _msg;
             }
             var rolem = await _roleserver.GetModelAsync(a => a.userId == model.Id);
@@ -103,10 +107,10 @@ namespace QinOpen.Controllers
                 jwtStr = new JwtSecurityTokenHandler().WriteToken(jst);
                 #endregion
 
-                _msg.data = jwtStr;
+                _msg.Data = jwtStr;
             }
-            _msg.msg = "请求成功！";
-            _msg.success = true;
+            _msg.Msg = "请求成功！";
+            _msg.Success = true;
             return _msg;
         }
 
@@ -120,8 +124,8 @@ namespace QinOpen.Controllers
         [HttpGet]
         public MessageModel GetCustom([FromQuery]ViewModel viewmodel)
         {
-            _msg.code = ModelState.IsValid.ToString();
-            _msg.msg = $"你输入的Name={viewmodel.Name}，pwd={viewmodel.pwd}";
+            _msg.Code = ModelState.IsValid.ToString();
+            _msg.Msg = $"你输入的Name={viewmodel.Name}，pwd={viewmodel.pwd}";
             return _msg;
         }
 
@@ -130,10 +134,23 @@ namespace QinOpen.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        [Authorize(Policy = "EveoneAdmin")] // 等价于 [Authorize(Roles = "admin_b")]
+        [Authorize(Policy = "EveoneAdmin")]      // 等价于 [Authorize(Roles = "admin_b")]
         public MessageModel GetUserList()
         {
-            _msg.data = "你获得授权，成功进来了";
+            _msg.Data = _userver.GetList();
+            return _msg;
+        }
+
+        /// <summary>
+        /// 添加用户
+        /// </summary>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize(Policy = "EveoneAdmin")]
+        public MessageModel AddUser(AddUserDTO dto, string type)
+        {
+            _msg.Success = _userver.AddUser(dto) > 0;
             return _msg;
         }
 
@@ -143,61 +160,13 @@ namespace QinOpen.Controllers
         /// <returns></returns>
         [HttpPut]
         [Authorize(Policy = "EveoneAdmin")]
-        public MessageModel UpdataUser(int id, string Jsonstr)
+        public MessageModel UpdataUser(int id, AddUserDTO dto)
         {
-            JObject jObject = JObject.Parse(Jsonstr);
-            zCustomUser zCustom = new zCustomUser();
-            var props = zCustom.GetType().GetProperties();
-            foreach (var item in jObject)
-            {
-                foreach (var prop in props)
-                {
-                    if (prop.Name.Equals(item.Key))
-                    {
-                        var s = Convert.ChangeType(item.Value, prop.PropertyType); // s需要做数据库关键词过滤
-                        prop.SetValue(zCustom, s, null);
-                    }
-                }
-            }
-            //_msg.success = _userver.Updateable(k => new zCustomUser() { Name = "小的" }, k => k.Id == id); //举例
-            //_msg.success = _userver.Updateable(k => zCustom, k => k.Id == id);
- 
-            zCustomUser zCustom1=new zCustomUser()  { Name = "小名"};
-            Expression<Func<zCustomUser, zCustomUser>> column = p=> zCustom1;
-            Expression<Func<zCustomUser, bool>> where = k => k.Id == id; 
-            _msg.success = _userver.Update(column, where) >0;
-            return _msg;
-        }
-
-        //前端直接传递Json，
-        public MessageModel UpdataUser1([FromBody]zCustomUser zCustom)
-        {
-            //zCustom 包含Id，与需要修改的列名，有Id，不知道行不行
-
-            _msg.success = _userver.Update(k => zCustom, k => k.Id == zCustom.Id) >0 ;
-
-            return _msg;
-        }
-
-        /// <summary>
-        /// 测试json配置文件是否可以读取及时数据
-        /// </summary>
-        /// <returns></returns>
-       [HttpGet]
-        public string pp()
-        {
-            return QinCommon.Common.Appsettings
-                .app(new string[] { "a" }); 
-        }
-
-        /// <summary>
-        /// 添加用户
-        /// </summary>
-        /// <param name="dto"></param>
-        /// <returns></returns>
-        public MessageModel AddUser([FromBody]AddUserDTO dto) 
-        {
-            _msg.success = _userver.AddUser(dto)>0;
+            // zCustomUser zCustom1 = new zCustomUser() { Name = "小名" };
+            zCustomUser model=_mapper.Map<zCustomUser>(dto);
+            Expression<Func<zCustomUser, zCustomUser>> column = p => model;
+            Expression<Func<zCustomUser, bool>> where = k => k.Id == id;
+            _msg.Success = _userver.Update(column, where) > 0;
             return _msg;
         }
 

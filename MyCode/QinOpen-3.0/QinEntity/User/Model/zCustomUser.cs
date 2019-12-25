@@ -17,6 +17,7 @@ namespace QinEntity
         /// <summary>
         /// 密码
         /// </summary>
+        [SugarColumn(ColumnDescription = "密码")]
         public string pwd { get; set; }
 
         /// <summary>
@@ -35,7 +36,7 @@ namespace QinEntity
         /// 业务字段：性别
         /// </summary>
         [SugarColumn(IsIgnore = true)]
-        public string MyProperty
+        public string GenderStr
         {
             get
             {
