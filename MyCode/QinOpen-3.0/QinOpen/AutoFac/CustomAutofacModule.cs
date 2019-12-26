@@ -9,6 +9,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Microsoft.DotNet.PlatformAbstractions;
 
 namespace QinOpen
 {
@@ -35,7 +36,8 @@ namespace QinOpen
             #region 业务的注入
             containerBuilder.Register(c => new CustomAutofacAop());//aop注册
             containerBuilder.RegisterType<A>().As<IA>().EnableInterfaceInterceptors();//AOP
-            var basePath = Microsoft.DotNet.PlatformAbstractions.ApplicationEnvironment.ApplicationBasePath;
+            // Microsoft.DotNet.PlatformAbstractions 是单独的nuget包
+            var basePath = ApplicationEnvironment.ApplicationBasePath;  
 
             //1-先注册sqlsuger，在 方法    services.DbInitialization(_configuration); 中已经注册
             //2- 再注册仓储Repository 

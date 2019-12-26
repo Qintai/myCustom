@@ -57,17 +57,17 @@ namespace QinOpen
             services.AddControllers(o =>
             {
                 o.Filters.Add(typeof(GlobalExceptionsFilter)); // 全局异常过滤
-            })
-                //全局配置Json序列化处理
-                .AddNewtonsoftJson(options =>
-                {
-                    //忽略循环引用
-                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
-                    //不使用驼峰样式的key
-                    options.SerializerSettings.ContractResolver = new DefaultContractResolver();
-                    //设置时间格式
-                    options.SerializerSettings.DateFormatString = "yyyy-MM-dd";
-                });
+            });
+                 //全局配置Json序列化处理
+            //  .AddNewtonsoftJson(options =>
+            //  {
+            //      //忽略循环引用
+            //      options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+            //      //不使用驼峰样式的key
+            //      options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+            //      //设置时间格式
+            //      options.SerializerSettings.DateFormatString = "yyyy-MM-dd";
+            //  });
            services.AddSingleton<IClientErrorFactory, MyIClientErrorFactory>(); // 默认的实现是 ProblemDetailsClientErrorFactory
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton(new Appsettings(_env.ContentRootPath));  //注入读取配置文件的类

@@ -35,15 +35,13 @@ namespace QinOpen
             var Audience = Appsettings.app(new string[] { "AppSettings", "Audience", "Audience" });
             //  var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
 
-            var aa = zCustomUserRoles.Roletype.admin_a.ToString();
-
             //一组授权，组名：EveoneAdmin，包含权限：admin_a,admin_b,admin_c
             services.AddAuthorization(k =>
             {
-                k.AddPolicy("EveoneAdmin", p => p.RequireRole(
-                    zCustomUserRoles.Roletype.admin_a.ToString(),
-                    zCustomUserRoles.Roletype.admin_b.ToString(),
-                    zCustomUserRoles.Roletype.admin_c.ToString()
+                k.AddPolicy(RoleHelper.EveoneAdmin, p => p.RequireRole(
+                    RoleHelper.Roletype.admin_a.ToString(),
+                    RoleHelper.Roletype.admin_b.ToString(),
+                    RoleHelper.Roletype.admin_c.ToString()
                    ).Build());
             });
 

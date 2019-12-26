@@ -100,22 +100,22 @@ namespace QinRepository
 
         public entity GetModel(string parm)
         {
-            return _db.Queryable<entity>().Where(parm).First() ?? new entity() { };
+            return _db.Queryable<entity>().Where(parm).First();
         }
 
         public entity GetModel(Expression<Func<entity, bool>> where)
         {
-            return _db.Queryable<entity>().Where(where).First() ?? new entity() { };
+            return _db.Queryable<entity>().Where(where).First();
         }
 
         public async Task<entity> GetModelAsync(string parm)
         {
-            return await _db.Queryable<entity>().Where(parm).FirstAsync() ?? new entity() { };
+            return await _db.Queryable<entity>().Where(parm).FirstAsync();
         }
 
         public async Task<entity> GetModelAsync(Expression<Func<entity, bool>> where)
         {
-            return await _db.Queryable<entity>().Where(where).FirstAsync() ?? new entity() { };
+            return await _db.Queryable<entity>().Where(where).FirstAsync();
         }
 
         public async Task<bool> IsExistAsync(Expression<Func<entity, bool>> where)

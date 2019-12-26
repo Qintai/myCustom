@@ -40,16 +40,28 @@ namespace QinEntity
         {
             get
             {
-                Enum.TryParse<Roletype>(RoleId.ToString(), out Roletype roletype);
+                Enum.TryParse<RoleHelper.Roletype>(RoleId.ToString(), out RoleHelper.Roletype roletype);
                 return roletype.ToString(); ;
             }
         }
+    }
 
+    /// <summary>
+    /// 业务的角色都写在这里
+    /// </summary>
+    public class RoleHelper
+    {
         public enum Roletype : int
         {
             admin_a = 0, //数据库库中存int值
             admin_b = 1,
             admin_c = 2,
         }
+
+        /// <summary>
+        /// 角色组
+        /// </summary>
+        public const string EveoneAdmin = "EveoneAdmin";
+
     }
 }

@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using QinCommon;
 using QinCommon.Common;
 using QinCommon.Common.AppConfig;
+using QinOpen.AuthHelper;
 
 namespace QinOpen
 {
@@ -21,50 +22,31 @@ namespace QinOpen
         /// <returns></returns>
         public static string IssueJwt(TokenModelJwt tokenModel)
         {
-            string iss = Appsettings.app(new string[] { "AppSettings", "Audience", "Issuer" });
-            string aud = Appsettings.app(new string[] { "AppSettings", "Audience", "Audience" });
-            string secret = AppSecretConfig.Audience_Secret_String;
+            /*1.写好这个证件中，有哪些信息，一个Claim 对象代表着一个证件中某一个信息*/
+            Claim[] claims = new[]
+            {
+               new Claim(JwtRegisteredClaimNames.UniqueName, tokenModel.Name), //证件用户名
+               new Claim(JwtRegisteredClaimNames.Sid, tokenModel.Uid.ToString()),//  证件Id   
+               new Claim(ClaimTypes.Role, tokenModel.Role) //证件的角色，以后控制器上就可以直接这样写 [Authorize(Roles = "test")]
+            };
 
-            //var claims = new Claim[] //old
-            var claims = new List<Claim>
-                {
-                 /*
-                 * 特别重要：
-                   1、这里将用户的部分信息，比如 uid 存到了Claim 中，如果你想知道如何在其他地方将这个 uid从 Token 中取出来，请看下边的SerializeJwt() 方法，或者在整个解决方案，搜索这个方法，看哪里使用了！
-                   2、你也可以研究下 HttpContext.User.Claims ，具体的你可以看看 Policys/PermissionHandler.cs 类中是如何使用的。
-                 */
+            // 2. 准备 安全密钥。就是： JwtParameter.IssuerSigningKey
 
-                new Claim(JwtRegisteredClaimNames.Jti, tokenModel.Uid.ToString()),
-                new Claim(JwtRegisteredClaimNames.Iat, $"{new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds()}"),
-                new Claim(JwtRegisteredClaimNames.Nbf,$"{new DateTimeOffset(DateTime.Now).ToUnixTimeSeconds()}") ,
-                //这个就是过期时间，目前是过期1000秒，可自定义，注意JWT有自己的缓冲过期时间
-                new Claim (JwtRegisteredClaimNames.Exp,$"{new DateTimeOffset(DateTime.Now.AddSeconds(1000)).ToUnixTimeSeconds()}"),
-                new Claim(ClaimTypes.Expiration, DateTime.Now.AddSeconds(1000).ToString()),
-                new Claim(JwtRegisteredClaimNames.Iss,iss),
-                new Claim(JwtRegisteredClaimNames.Aud,aud),
-                
-                //new Claim(ClaimTypes.Role,tokenModel.Role),//为了解决一个用户多个角色(比如：Admin,System)，用下边的方法
-               };
+            //3.准备 数字签名的安全密钥、算法和摘要。
+            SigningCredentials creds = new SigningCredentials(JwtParameter.IssuerSigningKey, SecurityAlgorithms.HmacSha256);
 
-            // 可以将一个用户的多个角色全部赋予；
-            // 作者：DX 提供技术支持；
-            claims.AddRange(tokenModel.Role.Split(',').Select(s => new Claim(ClaimTypes.Role, s)));
-
-
-
-            //秘钥 (SymmetricSecurityKey 对安全性的要求，密钥的长度太短会报出异常)
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-
-            var jwt = new JwtSecurityToken(
-                issuer: iss,
+            //4.实例化JWT得到token，
+            JwtSecurityToken jst = new JwtSecurityToken(
+                issuer: JwtParameter.ValidIssuer,
+                audience: JwtParameter.ValidIssuer,  //必须加上这个才能通过验证
                 claims: claims,
-                signingCredentials: creds);
+                expires: DateTime.Now.AddSeconds(60), //token的到期时间，暂时设置的60秒
+                signingCredentials: creds
+            );
 
-            var jwtHandler = new JwtSecurityTokenHandler();
-            var encodedJwt = jwtHandler.WriteToken(jwt);
-
-            return encodedJwt;
+            // 5. 以精简序列化格式将JWT安全令牌序列化为WT。拿到最终的token
+            string jwtStr = new JwtSecurityTokenHandler().WriteToken(jst);
+            return jwtStr;
         }
 
         /// <summary>
@@ -76,19 +58,24 @@ namespace QinOpen
         {
             var jwtHandler = new JwtSecurityTokenHandler();
             JwtSecurityToken jwtToken = jwtHandler.ReadJwtToken(jwtStr);
+            object Name;
+            object Uid;
             object role;
             try
             {
+                jwtToken.Payload.TryGetValue(JwtRegisteredClaimNames.UniqueName, out Name);
+                jwtToken.Payload.TryGetValue(JwtRegisteredClaimNames.Sid, out Uid);
                 jwtToken.Payload.TryGetValue(ClaimTypes.Role, out role);
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw;
+                throw e;
             }
             var tm = new TokenModelJwt
             {
-                Uid = (jwtToken.Id).ObjToInt(),
+                Name= Name.ToString(),
+                Uid = Uid.ObjToInt(),
                 Role = role != null ? role.ObjToString() : "",
             };
             return tm;
@@ -101,7 +88,7 @@ namespace QinOpen
     public class TokenModelJwt
     {
         /// <summary>
-        /// Id
+        /// 用户Id
         /// </summary>
         public long Uid { get; set; }
         /// <summary>
@@ -109,9 +96,9 @@ namespace QinOpen
         /// </summary>
         public string Role { get; set; }
         /// <summary>
-        /// 职能
+        /// 用户名称
         /// </summary>
-        public string Work { get; set; }
+        public string Name { get; set; }
 
     }
 }

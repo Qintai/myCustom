@@ -1,10 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using System;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Text;
 
 namespace QinOpen
 {
@@ -13,9 +8,37 @@ namespace QinOpen
     /// </summary>
     public class MessageModel   /*: ClientErrorData*/
     {
+        /// <summary>
+        /// 返回错误信息
+        /// </summary>
+        /// <param name="err"></param>
+        /// <returns></returns>
+        public static MessageModel Fail(ref MessageModel _msg ,string err) 
+        {
+            _msg.Msg = err;
+            _msg.Success = false;
+            return _msg;
+        }
+
+        /// <summary>
+        /// 返回成功信息
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static MessageModel Ok(ref MessageModel _msg, string str)
+        {
+            _msg.Msg = str;
+            _msg.Success = true;
+            return _msg;
+        }
+
 
         public MessageModel() { }
 
+        /// <summary>
+        /// 返回模型绑定的错误
+        /// </summary>
+        /// <param name="modelState"></param>
         public MessageModel(ModelStateDictionary modelState)
         {
             //IEnumerable<dynamic> dy = modelState.Keys.SelectMany(key => modelState[key].Errors

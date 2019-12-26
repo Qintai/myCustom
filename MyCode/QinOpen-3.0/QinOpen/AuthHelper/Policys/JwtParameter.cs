@@ -10,6 +10,9 @@ namespace QinOpen.AuthHelper
 {
     public class JwtParameter
     {
+        /// <summary>
+        /// 从配置文件获取 发行人
+        /// </summary>
         public static string ValidIssuer
         { 
             get 

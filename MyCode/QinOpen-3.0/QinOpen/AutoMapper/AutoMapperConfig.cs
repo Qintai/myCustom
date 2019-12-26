@@ -36,7 +36,7 @@ namespace QinOpen
 
             /*把dto转换成实体*/
             CreateMap<AddUserDTO, zCustomUser>()
-                .ForMember(a => a.addTime, b => b.MapFrom(s => s.daddTime)) //添加时间
+                .ForMember(a => a.AddTime, b => b.MapFrom(s => s.daddTime)) //添加时间
                 .ForMember(a => a.Name, b => b.MapFrom(s => s.dName)) //用户昵称
                 .ForMember(a => a.pwd, b => b.MapFrom(s => s.dpwd))//用户密码
                 .ForMember(a => a.Gender, b => b.MapFrom(s => s.dSex)); //用户性别 ，这样写会报错的，因为string 不能转int，需要下面的 ConvertUsing
