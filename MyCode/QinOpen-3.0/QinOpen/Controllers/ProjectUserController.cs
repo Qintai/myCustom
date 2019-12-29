@@ -21,13 +21,13 @@ namespace QinOpen.Controllers
     {
         MessageModel _msg = new MessageModel();
         IUserService _userver;
-        IzCustomUserRolesService _roleserver;
+        IUserRolesService _roleserver;
         IMapper _mapper;
 
         public ProjectUserController(
             MessageModel msg,
             IUserService userver,
-            IzCustomUserRolesService roleserver,
+            IUserRolesService roleserver,
             IMapper mapper
             )
         {

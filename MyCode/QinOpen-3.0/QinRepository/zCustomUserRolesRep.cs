@@ -14,7 +14,7 @@ namespace QinRepository
     /// 作用：为了让autofac 把不同实体的仓储给注入进去
     /// </summary>
     public class zCustomUserRolesRep 
-        : SqlSugerHelper<zCustomUserRoles>, IzCustomUserRolesRep 
+        : SqlSugerHelper<UserRoles>, IzCustomUserRolesRep 
     {
         public zCustomUserRolesRep(ISqlSugarClient db)
             :base(db)

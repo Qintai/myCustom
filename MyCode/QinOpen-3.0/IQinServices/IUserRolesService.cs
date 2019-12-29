@@ -6,7 +6,7 @@ using System.Text;
 
 namespace IQinServices
 {
-    public interface IzCustomUserRolesService : IBaseRepository<zCustomUserRoles>
+    public interface IUserRolesService : IBaseRepository<UserRoles>
     {
 
     }

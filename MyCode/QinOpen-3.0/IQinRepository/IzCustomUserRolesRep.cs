@@ -7,7 +7,7 @@ namespace IQinRepository
     /// 中间类
     /// 作用：为了让autofac 把不同实体的仓储给注入进去
     /// </summary>
-    public interface IzCustomUserRolesRep : IBaseRepository<zCustomUserRoles>
+    public interface IzCustomUserRolesRep : IBaseRepository<UserRoles>
     {
 
     }

@@ -6,7 +6,7 @@ namespace QinEntity
     /// <summary>
     /// 用户角色表
     /// </summary>
-    public class zCustomUserRoles : Entity
+    public class UserRoles :Entity
     {
         /// <summary>
         ///获取或设置是否禁用，逻辑上的删除，非物理删除
@@ -48,6 +48,7 @@ namespace QinEntity
 
     /// <summary>
     /// 业务的角色都写在这里
+    /// 这里的角色和数据库的角色保持一致
     /// </summary>
     public class RoleHelper
     {
