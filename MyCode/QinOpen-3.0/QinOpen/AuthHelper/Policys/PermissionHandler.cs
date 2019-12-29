@@ -73,7 +73,7 @@ namespace Blog.Core.AuthHelper
                 var aher = await handlers.GetHandlerAsync(httpContext, scheme.Name);
                 if (aher is IAuthenticationRequestHandler handler && await handler.HandleRequestAsync())
                 {
-                    vresult.Msg = "请求已经停止";
+                    vresult.Message = "请求已经停止";
                     await httpContext.Response.WriteAsync(Newtonsoft.Json.JsonConvert.SerializeObject(vresult));
                     return;
                 }
@@ -88,7 +88,7 @@ namespace Blog.Core.AuthHelper
                 if (vresult == null)
                     vresult = new MessageModel();
                 var questUrl = httpContext.Request.Headers["referer"];
-                vresult.Msg = "没有登录";
+                vresult.Message = "没有登录";
                 vresult.Code = questUrl.ToString();
                 await httpContext.Response.WriteAsync(Newtonsoft.Json.JsonConvert.SerializeObject(vresult));
                 return;
@@ -100,7 +100,7 @@ namespace Blog.Core.AuthHelper
             // result.Principal：获取具有已验证用户身份的声明主体
             if (result == null || result.Principal == null)
             {
-                vresult.Msg = "认证失败";
+                vresult.Message = "认证失败";
                 await httpContext.Response.WriteAsync(Newtonsoft.Json.JsonConvert.SerializeObject(vresult));
             }
             #endregion
@@ -114,7 +114,7 @@ namespace Blog.Core.AuthHelper
 
             if (currentUserRoles.Count <= 0)
             {
-                vresult.Msg = "认证失败,用户信息错误";
+                vresult.Message = "认证失败,用户信息错误";
                 await httpContext.Response.WriteAsync(Newtonsoft.Json.JsonConvert.SerializeObject(vresult));
             }
 
@@ -140,7 +140,7 @@ namespace Blog.Core.AuthHelper
 
             if (!isMatchRole)
             {
-                vresult.Msg = "认证失败";
+                vresult.Message = "认证失败";
                 await httpContext.Response.WriteAsync(Newtonsoft.Json.JsonConvert.SerializeObject(vresult));
             }
             #endregion
@@ -152,7 +152,7 @@ namespace Blog.Core.AuthHelper
             var flag = a && b;
             if (!flag)
             {
-                vresult.Msg = "认证失败,用户信息已经过期";
+                vresult.Message = "认证失败,用户信息已经过期";
                 await httpContext.Response.WriteAsync(Newtonsoft.Json.JsonConvert.SerializeObject(vresult));
                 return;
             }

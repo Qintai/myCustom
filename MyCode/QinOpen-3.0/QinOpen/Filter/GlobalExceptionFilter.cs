@@ -28,7 +28,7 @@ namespace QinOpen.Filter
         {
             MessageModel messageModel = new MessageModel
             {
-                Msg = "出错了"
+                Message = "出错了"
             };
             context.Result = new JsonResult(messageModel);
             //采用log4net 进行错误日志记录

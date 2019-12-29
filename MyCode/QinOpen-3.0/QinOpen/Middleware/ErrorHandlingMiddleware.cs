@@ -63,7 +63,7 @@ namespace QinOpen.Middleware
             //    return Task.CompletedTask;
             #endregion
 
-            var result = Newtonsoft.Json.JsonConvert.SerializeObject(new MessageModel() { Success = false, Msg = msg, Code = statusCode.ToString() });
+            var result = Newtonsoft.Json.JsonConvert.SerializeObject(new MessageModel() { Success = false, Message = msg, Code = statusCode.ToString() });
             context.Response.ContentType = "application/json;charset=utf-8";
             await context.Response.WriteAsync(result);
         }

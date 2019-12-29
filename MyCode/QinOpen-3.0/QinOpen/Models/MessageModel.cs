@@ -15,7 +15,7 @@ namespace QinOpen
         /// <returns></returns>
         public static MessageModel Fail(ref MessageModel _msg ,string err) 
         {
-            _msg.Msg = err;
+            _msg.Message = err;
             _msg.Success = false;
             return _msg;
         }
@@ -27,7 +27,7 @@ namespace QinOpen
         /// <returns></returns>
         public static MessageModel Ok(ref MessageModel _msg, string str)
         {
-            _msg.Msg = str;
+            _msg.Message = str;
             _msg.Success = true;
             return _msg;
         }
@@ -49,7 +49,7 @@ namespace QinOpen
                 foreach (ModelError err in entry.Errors)
                     str.Add(err.ErrorMessage);
 
-            Msg = string.Join(",", str);
+            Message = string.Join(",", str);
         }
 
         /// <summary>
@@ -61,7 +61,7 @@ namespace QinOpen
         /// 返回信息
         /// </summary>
         private string _msg;
-        public string Msg
+        public string Message
         {
             get
             {
@@ -80,7 +80,7 @@ namespace QinOpen
         /// <summary>
         /// 返回数据
         /// </summary>
-        public object Data { get; set; }
+        public object Response { get; set; }
 
     }
 }

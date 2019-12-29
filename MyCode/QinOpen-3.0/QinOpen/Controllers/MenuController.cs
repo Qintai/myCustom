@@ -13,10 +13,11 @@ namespace QinOpen.Controllers
     /// <summary>
     /// 关于菜单
     /// </summary>
-    [Route("api/[controller]/[action]")]
+    [Route("api/Menu/[action]")]
     [ApiController]
     public class MenuController : ControllerBase
     {
+        MessageModel _msg = new MessageModel();
         IRolesService _rolesService;
         IMenusService _menuservice;
 
@@ -31,7 +32,7 @@ namespace QinOpen.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public MessageModel GetNavigationBar()
         {
             var authorization = HttpContext.Request.Headers["Authorization"];
             string jwtstr = authorization.ToString().Replace("Bearer ", "");
@@ -51,17 +52,18 @@ namespace QinOpen.Controllers
                         menulist.Add(m);
                 }
                 List<NavigationBar> all = new List<NavigationBar>();
-                all = menulist.Select(child => new NavigationBar 
+                all = menulist.Select(child => new NavigationBar
                 {
                     id = child.Id,
                     name = child.MenuName,
                     pid = child.Fid,
-                    order =1,
+                    order = 1,
+                    path=child.MenuUrl,
                     meta = new NavigationBarMeta
                     {
                         requireAuth = true,
                         title = child.MenuName,
-                        NoTabPage =true
+                        NoTabPage = true
                     }
                 }).ToList();
 
@@ -76,12 +78,22 @@ namespace QinOpen.Controllers
                     iconCls = "",
                     meta = new NavigationBarMeta(),
                 };
-                ffe(all, rootRoot);
+                Recursion(all, rootRoot);
+               _msg.Response = rootRoot;
             }
-            return new string[] { "value1", "value2" };
+
+            _msg.Success = true;
+            _msg.Message = "路由节点获取成功！";
+            return _msg;
         }
 
-        public void ffe(List<NavigationBar> menulist, NavigationBar rootRoot)
+        /// <summary>
+        /// 递归求出下一级菜单
+        /// </summary>
+        /// <param name="menulist"></param>
+        /// <param name="rootRoot"></param>
+        [NonAction]
+        public void Recursion(List<NavigationBar> menulist, NavigationBar rootRoot)
         {
             var subItems = menulist.Where(ee => ee.pid == rootRoot.id).ToList();
             if (subItems.Count()>0)
@@ -93,7 +105,7 @@ namespace QinOpen.Controllers
                 rootRoot.children = null;
             foreach (var item in subItems)
             {
-                ffe(menulist, item);
+                Recursion(menulist, item);
             }
         }
 

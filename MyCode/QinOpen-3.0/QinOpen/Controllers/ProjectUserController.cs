@@ -41,16 +41,16 @@ namespace QinOpen.Controllers
         /// 登陆接口
         /// </summary>
         /// <param name="Name">用户名</param>
-        /// <param name="pwd">密码</param>
+        /// <param name="pass">密码</param>
         /// <returns></returns>
         [HttpGet("Login")]
-        public async Task<MessageModel> Login(string Name, string pwd)
+        public async Task<MessageModel> Login(string Name, string pass)
         {
             var model = await _userver.GetModelAsync(m => m.Name.Equals(Name));
             if (model == null)
                 return MessageModel.Fail(ref _msg, "没有找到用户！");
 
-            if (model.pwd != MD5Helper.MD5Encrypt32(pwd))
+            if (model.pwd != MD5Helper.MD5Encrypt32(pass))
                 return MessageModel.Fail(ref _msg, "用户密码输入错误！");
 
             var rolem = await _roleserver.GetModelAsync(a => a.userId == model.Id);
@@ -62,7 +62,7 @@ namespace QinOpen.Controllers
                     Uid = model.Id,
                     Role = rolem.RoleName
                 };
-                _msg.Data = JwtHelper.IssueJwt(tokenModel);
+                _msg.Response = JwtHelper.IssueJwt(tokenModel);
             }
             return MessageModel.Ok(ref _msg, "请求成功！");
         }
@@ -75,7 +75,7 @@ namespace QinOpen.Controllers
         [Authorize(Policy = RoleHelper.EveoneAdmin)]   // 等价于 [Authorize(Roles = "admin_b")]
         public MessageModel GetUserList()
         {
-            _msg.Data = _userver.GetList();
+            _msg.Response = _userver.GetList();
             return MessageModel.Ok(ref _msg, "请求成功！");
         }
 
@@ -119,9 +119,29 @@ namespace QinOpen.Controllers
             var authorization = HttpContext.Request.Headers["Authorization"];
             string jwtstr = authorization.ToString().Replace("Bearer ", "");
             TokenModelJwt token = JwtHelper.SerializeJwt(jwtstr);
-            _msg.Data = token;
+            _msg.Response = token;
             return _msg;
         }
 
+
+        [HttpGet("GetUserByToken")]
+        public MessageModel GetUserByToken(string token) 
+        {
+            if (!string.IsNullOrEmpty(token))
+            {
+                var tokenModel = JwtHelper.SerializeJwt(token);
+                if (tokenModel != null && tokenModel.Uid > 0)
+                {
+                    var userinfo =  _userver.GetModel(p=>p.Id==Convert.ToInt32(tokenModel.Uid));
+                    if (userinfo != null)
+                    {
+                        _msg.Response = userinfo;
+                        _msg.Success = true;
+                        _msg.Message = "获取用户信息成功";
+                    }
+                }
+            }
+            return _msg;
+        }
     }
 }
