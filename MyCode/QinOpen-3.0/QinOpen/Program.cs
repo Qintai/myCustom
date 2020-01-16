@@ -40,7 +40,7 @@ namespace QinOpen
                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseUrls("http://localhost:802");
+                    webBuilder.UseUrls("http://localhost:8022");
                     webBuilder.UseStartup<Startup>();
                 });
 
