@@ -70,12 +70,14 @@ namespace QinOpen.Controllers
         /// <summary>
         /// 获取用户列表
         /// </summary>
+        /// <param name="page">分页条数</param>
+        /// <param name="key">搜索条件</param>
         /// <returns></returns>
-        [HttpPost("GetUserList")]
+        [HttpGet("get")]
         [Authorize(Policy = RoleHelper.EveoneAdmin)]   // 等价于 [Authorize(Roles = "admin_b")]
-        public MessageModel GetUserList()
+        public MessageModel GetUserList(int page = 1, string key = "")
         {
-            _msg.Response = _userver.GetList();
+            _msg.Response = _userver.QueryPage(a=>true,page,20,"addtime");
             return MessageModel.Ok(ref _msg, "请求成功！");
         }
 
@@ -83,6 +85,7 @@ namespace QinOpen.Controllers
         /// 添加用户
         /// </summary>
         /// <param name="dto"></param>
+        /// <param name="type">添加/修改</param>
         /// <returns></returns>
         [HttpPost]
         [Authorize(Policy = RoleHelper.EveoneAdmin)]

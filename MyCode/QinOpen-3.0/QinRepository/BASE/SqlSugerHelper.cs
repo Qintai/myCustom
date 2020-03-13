@@ -1,4 +1,5 @@
-﻿using IQinRepository;
+﻿using Blog.Core.Model;
+using IQinRepository;
 using SqlSugar;
 using System;
 using System.Collections.Generic;
@@ -163,6 +164,23 @@ namespace QinRepository
         public int AddList(List<entity> parm)
         {
             return _db.Insertable<entity>(parm).ExecuteCommand();
+        }
+
+        public PageModel<entity> QueryPage(Expression<Func<entity, bool>> whereExpression, int intPageIndex = 1, int intPageSize = 20, string strOrderByFileds = null)
+        {
+            RefAsync<int> totalCount = 0;
+            var list =  _db.Queryable<entity>()
+             .OrderByIF(!string.IsNullOrEmpty(strOrderByFileds), strOrderByFileds)
+             .WhereIF(whereExpression != null, whereExpression)
+             .ToPageListAsync(intPageIndex, intPageSize, totalCount).Result;
+
+            int pageCount = (Math.Ceiling(totalCount.ObjToDecimal() / intPageSize.ObjToDecimal())).ObjToInt();
+            return new PageModel<entity>() {
+                dataCount = totalCount, 
+                pageCount = pageCount, 
+                page = intPageIndex, 
+                PageSize = intPageSize, 
+                data = list };
         }
 
 

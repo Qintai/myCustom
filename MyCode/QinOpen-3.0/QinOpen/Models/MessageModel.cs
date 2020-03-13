@@ -75,7 +75,7 @@ namespace QinOpen
         /// <summary>
         /// 返回状态码
         /// </summary>
-        public string Code { get; set; } = "200";
+        public string Code { get; set; } = "";
 
         /// <summary>
         /// 返回数据

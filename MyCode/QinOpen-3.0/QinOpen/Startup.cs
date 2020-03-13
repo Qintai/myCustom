@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using QinCommon.Common;
+using QinEntity;
 using QinOpen.Filter;
 using QinOpen.Middleware;
 
@@ -74,7 +75,8 @@ namespace QinOpen
             services.AddControllersWithViews();
             services.Swagger();
             services.Jwt();
-            services.DbInitialization(_configuration);
+            services.DbInitialization( _env);
+            services.AddScoped<DbSeed>(); //使用SqlLite，初始化数据
 
             services.AddAutoMapper(typeof(AutoMapperConfig));
             AutoMapperConfig.RegisterMappings();
@@ -106,7 +108,8 @@ namespace QinOpen
             services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true); //禁用自带 的验证
 
             services.AddSingleton<DynamicRoute>(); //自定义路由用的上的
-
+            services.AddSingleton(new QinCommon.Redis.Exchange.Service.RedisStringService());
+            services.AddSingleton(new QinCommon.Redis.Exchange.Service.RedisHashService());
             services.AddRouting(options =>
             { });
 

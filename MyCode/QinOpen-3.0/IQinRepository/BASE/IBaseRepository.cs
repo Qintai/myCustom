@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Blog.Core.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Text;
@@ -76,6 +77,16 @@ namespace IQinRepository
         Task<List<entity>> GetListAsync(Expression<Func<entity, bool>> where, Expression<Func<entity, object>> order, string orderby);
 
         List<entity> GetList(Expression<Func<entity, bool>> where, Expression<Func<entity, object>> order, string orderby);
+
+        /// <summary>
+        /// 获取分页数据
+        /// </summary>
+        /// <param name="whereExpression"></param>
+        /// <param name="intPageIndex"></param>
+        /// <param name="intPageSize"></param>
+        /// <param name="strOrderByFileds"></param>
+        /// <returns></returns>
+        PageModel<entity> QueryPage(Expression<Func<entity, bool>> whereExpression, int intPageIndex = 1, int intPageSize = 20, string strOrderByFileds = null);
 
         /// <summary>
         /// 获得列表

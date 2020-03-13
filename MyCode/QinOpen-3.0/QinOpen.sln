@@ -11,13 +11,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Realization", "Realization"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QinRepository", "QinRepository\QinRepository.csproj", "{F6230F1B-7A89-42B7-BB49-3511F202C206}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QinServices", "QinServices\QinServices.csproj", "{FC0CDF15-D7C3-4A47-AAEA-C05CCF5B919A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QinServices", "QinServices\QinServices.csproj", "{FC0CDF15-D7C3-4A47-AAEA-C05CCF5B919A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IQinRepository", "IQinRepository\IQinRepository.csproj", "{499FE9B2-BD74-490A-8261-8D2B850D589A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IQinRepository", "IQinRepository\IQinRepository.csproj", "{499FE9B2-BD74-490A-8261-8D2B850D589A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IQinServices", "IQinServices\IQinServices.csproj", "{58761991-DFD8-481B-91F3-D919E370D2E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IQinServices", "IQinServices\IQinServices.csproj", "{58761991-DFD8-481B-91F3-D919E370D2E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QinEntity", "QinEntity\QinEntity.csproj", "{5B0D8419-0263-493A-85D0-E34B59BE55B7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QinEntity", "QinEntity\QinEntity.csproj", "{5B0D8419-0263-493A-85D0-E34B59BE55B7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

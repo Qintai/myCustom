@@ -2,8 +2,13 @@ using Autofac.Extensions.DependencyInjection;
 using log4net.Repository;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using QinCommon;
+using QinEntity;
+using SqlSugar;
+using System;
 using System.IO;
 using System.Reflection;
 using System.Xml;
@@ -30,6 +35,12 @@ namespace QinOpen
             }
 
             IHost host = CreateHostBuilder(args).Build();
+
+            //=======sqllite生成数据库,初始化数据=======//
+            //var sclient = host.Services.GetRequiredService<SqlSugar.ISqlSugarClient>();
+            //DbSeed dbSeed = host.Services.GetRequiredService<DbSeed>();
+            //dbSeed.InitData(sclient);
+            //===============//
             host.Run();
         }
 

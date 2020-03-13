@@ -6,10 +6,11 @@ namespace QinOpen.Filter
 {
     /// <summary>
     /// Startup 加入 全局，Startup 还需配置 禁用自带 的验证
-    ///  services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true)
     /// </summary>
     public class GlobalAction : IActionFilter
     {
+        // services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true)
+
         public void OnActionExecuted(ActionExecutedContext context)
         {
             #region 是否返回JsonP

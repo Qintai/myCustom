@@ -35,6 +35,12 @@ namespace QinOpen.Controllers
         public MessageModel GetNavigationBar()
         {
             var authorization = HttpContext.Request.Headers["Authorization"];
+            if (string.IsNullOrWhiteSpace(authorization) || authorization.ToString()=="")
+            {
+                _msg.Success = false;
+                _msg.Message = "没有token，您还没有权限";
+                return _msg;
+            }
             string jwtstr = authorization.ToString().Replace("Bearer ", "");
             TokenModelJwt token = JwtHelper.SerializeJwt(jwtstr);
 
@@ -58,7 +64,7 @@ namespace QinOpen.Controllers
                     name = child.MenuName,
                     pid = child.Fid,
                     order = 1,
-                    path=child.MenuUrl,
+                    path = child.MenuUrl,
                     meta = new NavigationBarMeta
                     {
                         requireAuth = true,
@@ -79,7 +85,7 @@ namespace QinOpen.Controllers
                     meta = new NavigationBarMeta(),
                 };
                 Recursion(all, rootRoot);
-               _msg.Response = rootRoot;
+                _msg.Response = rootRoot;
             }
 
             _msg.Success = true;
@@ -96,7 +102,7 @@ namespace QinOpen.Controllers
         public void Recursion(List<NavigationBar> menulist, NavigationBar rootRoot)
         {
             var subItems = menulist.Where(ee => ee.pid == rootRoot.id).ToList();
-            if (subItems.Count()>0)
+            if (subItems.Count() > 0)
             {
                 rootRoot.children = new List<NavigationBar>();
                 rootRoot.children.AddRange(subItems);

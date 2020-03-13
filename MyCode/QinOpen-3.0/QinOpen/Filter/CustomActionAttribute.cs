@@ -5,10 +5,11 @@ namespace QinOpen.Filter
 {
     /// <summary>
     ///  局部ActionFilter。 Startup 还需配置 禁用自带 的验证
-    ///  services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true)
     /// </summary>
     public class CustomActionAttribute : Attribute, IActionFilter
     {
+        //services.Configure<ApiBehaviorOptions>(options => options.SuppressModelStateInvalidFilter = true)
+
         public void OnActionExecuted(ActionExecutedContext context)
         { }
 

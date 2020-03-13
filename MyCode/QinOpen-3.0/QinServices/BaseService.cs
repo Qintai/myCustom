@@ -1,4 +1,5 @@
-﻿using IQinRepository;
+﻿using Blog.Core.Model;
+using IQinRepository;
 using IQinServices;
 using System;
 using System.Collections.Generic;
@@ -152,6 +153,11 @@ namespace QinServices
         public Task<int> UpdateAsync(Expression<Func<TEntity, TEntity>> columns, Expression<Func<TEntity, bool>> where)
         {
             return this.repository.UpdateAsync(columns, where);
+        }
+
+        public PageModel<TEntity> QueryPage(Expression<Func<TEntity, bool>> whereExpression, int intPageIndex = 1, int intPageSize = 20, string strOrderByFileds = null)
+        {
+            return this.repository.QueryPage( whereExpression, intPageIndex, intPageSize, strOrderByFileds);
         }
 
         #region MyRegion

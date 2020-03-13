@@ -11,20 +11,26 @@ namespace QinEntity
         /// <summary>
         /// 昵称
         /// </summary>
-        [SugarColumn(ColumnDescription = "名称")]
+        [SugarColumn(ColumnDescription = "名称",ColumnDataType = "nvarchar", Length = 50)]
         public string Name { get; set; }
 
         /// <summary>
         /// 密码
         /// </summary>
-        [SugarColumn(ColumnDescription = "密码")]
+        [SugarColumn(ColumnDescription = "密码", ColumnDataType = "nvarchar", Length = 50)]
         public string pwd { get; set; }
 
         /// <summary>
         /// 性别
         /// </summary>
-        [SugarColumn(IsNullable = true, ColumnDescription = "性别")]
+        [SugarColumn(IsNullable = true, ColumnDescription = "性别", ColumnDataType = "int", Length = 50)]
         public int? Gender { get; set; }
+
+        /// <summary>
+        /// 状态
+        /// </summary>
+        [SugarColumn(IsNullable = true, ColumnDescription = "性别", ColumnDataType = "int", Length = 11)]
+        public int? state { get; set; }
 
         /// <summary>
         /// 添加时间
