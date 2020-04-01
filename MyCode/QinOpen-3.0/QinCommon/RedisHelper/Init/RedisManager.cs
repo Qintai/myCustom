@@ -77,15 +77,7 @@ namespace QinCommon.Redis.Exchange.Init
         private static ConnectionMultiplexer GetManager(string connectionString = null)
         {
             connectionString = connectionString ?? RedisHostConnection;
-            ConnectionMultiplexer connect=null;
-            try
-            {
-                connect = ConnectionMultiplexer.Connect(connectionString);
-            }
-            catch (Exception e)
-            {
-                Log4helper<RedisManager>.Errror(e);
-            }
+            ConnectionMultiplexer connect = ConnectionMultiplexer.Connect(connectionString);
 
             //注册如下事件
             connect.ConnectionFailed += MuxerConnectionFailed;

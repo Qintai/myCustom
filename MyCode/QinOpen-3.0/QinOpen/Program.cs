@@ -35,7 +35,7 @@ namespace QinOpen
             //}
             #endregion
 
-            IHost host = CreateHostBuilder(args).Build();
+           
             //=======sqllite生成数据库,初始化数据=======//
             //var sclient = host.Services.GetRequiredService<SqlSugar.ISqlSugarClient>();
             //DbSeed dbSeed = host.Services.GetRequiredService<DbSeed>();
@@ -43,7 +43,8 @@ namespace QinOpen
             //========================================//
             try
             {
-              host.Run();
+                IHost host = CreateHostBuilder(args).Build();
+                host.Run();
             }
             catch (Exception e)
             {
