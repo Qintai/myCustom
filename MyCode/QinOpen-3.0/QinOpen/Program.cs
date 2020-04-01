@@ -21,27 +21,35 @@ namespace QinOpen
         {
             InItLog4.InitLog4net();
 
-            //命令行的接受
-            {
-                // dotnet QinOpen.dll--name = pp--age = 99
-
-                var builder = new ConfigurationBuilder()
-                       .SetBasePath(Directory.GetCurrentDirectory())
-                        .AddCommandLine(args); //可以接收调试应用程序参数
-
-                var configuration = builder.Build();
-                System.Console.WriteLine($"name：{configuration["name"]}");
-                System.Console.WriteLine($"age：{configuration["age"]}");
-            }
+            #region 命令行的接受
+            //{
+            //    // dotnet QinOpen.dll--name = pp--age = 99
+            //
+            //    var builder = new ConfigurationBuilder()
+            //           .SetBasePath(Directory.GetCurrentDirectory())
+            //            .AddCommandLine(args); //可以接收调试应用程序参数
+            //
+            //    var configuration = builder.Build();
+            //    System.Console.WriteLine($"name：{configuration["name"]}");
+            //    System.Console.WriteLine($"age：{configuration["age"]}");
+            //}
+            #endregion
 
             IHost host = CreateHostBuilder(args).Build();
-
             //=======sqllite生成数据库,初始化数据=======//
             //var sclient = host.Services.GetRequiredService<SqlSugar.ISqlSugarClient>();
             //DbSeed dbSeed = host.Services.GetRequiredService<DbSeed>();
             //dbSeed.InitData(sclient);
-            //===============//
-            host.Run();
+            //========================================//
+            try
+            {
+              host.Run();
+            }
+            catch (Exception e)
+            {
+                Log4helper<Program>.Errror(e);
+                return;
+            }
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args)
@@ -51,7 +59,7 @@ namespace QinOpen
                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseUrls("http://localhost:8022");
+                    //webBuilder.UseUrls("http://localhost:8022"); // launchSettings.json 已经写好
                     webBuilder.UseStartup<Startup>();
                 });
 

@@ -27,10 +27,6 @@
     <ProjectReference Include="..\IQinServices\IQinServices.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Log\" />
-    <Folder Include="QinOpen\" />
-  </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 

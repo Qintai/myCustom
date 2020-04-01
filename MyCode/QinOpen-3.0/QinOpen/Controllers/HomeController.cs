@@ -38,12 +38,15 @@ namespace QinOpen.Controllers
             zCustomUser uu = new zCustomUser() { Gender = 0, Name = "fd" };
             _redisHashService.HashSet("mm", "pp0", uu);
             _redisHashService.HashSet("mm", "pp1", new zCustomUser() { Gender = 1, Name = "官方公告" });
-
+          
             _redisStringService.StringSet("aa", uu);
             string val = _redisStringService.StringGet("aa");
             zCustomUser getuu = _redisHashService.HashGet<zCustomUser>("mm", "pp");
 
             Log4helper<HomeController>.Info($"进入了{nameof(HomeController)} 的 {nameof(Index)}");
+            Log4helper<HomeController>.Errror(new System.Exception("测试Error的写入信息"));
+            Log4helper<HomeController>.Debug($"测试Debug写入信息");
+
             // services.Configure<InterExample>(configuration.GetSection("InterExample"));  //配置为 InterExample 注入对象成功,可以获取对象信息
             // InterExample interExample = (InterExample)HttpContext.RequestServices.GetService(typeof(InterExample));
             _logger.LogError("控制台显示");
